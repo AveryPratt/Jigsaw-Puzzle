@@ -1,0 +1,91 @@
+puzzle game javascript pseudo-code:
+
+
+Local Variables:
+
+--- playerName
+--- imgSelected
+--- xDimension
+--- yDimension
+--- puzzleArray[][] (for placing pieces onto puzzle)
+--- randArray[] (for sorting pieces in random order)
+--- timer
+
+--- puzzleTable (DOM element)
+--- randTableRow (DOM element)
+--- startGameButton (DOM element)
+
+
+Constructors:
+
+--- Piece(correctX, correctY, randIndex, imgSource){
+	correctX = correctX
+	correctY = correctY
+	randIndex = randIndex
+	imgSource = imgSource
+}
+
+
+Functions:
+
+--- startGame(){
+// get playerName, imgSelected, xDimension, and yDimension from user via input DOM elements
+// populateTables
+// start timer
+}
+
+--- populateTables(){
+// add yDimension number of tr's to puzzleTable (id = 'tr' + y;)
+// add xDimension number of td's to each tr (id = 'td' + y + x;)
+// for each td in puzzleTable, add an eventlistener (img dropped, dropPieceOnPuzzle)
+
+// add xDimension * yDimension number of td's to randTableRow
+// for each td in randTableRow generate randIndex between 0 and randTableRow.length - 1
+// for each td in puzzleTable, new Piece(x, y, randIndex, imgSource); (x and y are taken from td's id. imgSource is selected from a directory containing pre-sliced images according to imgSelected and dimensions. See notes at bottom for more information)
+}
+
+--- dropPieceOnPuzzle(){
+// get piece being dropped from randArray
+// remove piece from randArray
+// remove img tag from rand table
+
+// get td being dropped on
+// add piece to puzzleArray (at correct x and y position, taken from td's id)
+// create img tag inside td on puzzle table
+
+   checkToSeeIfPuzzleIsFinished();
+}
+
+--- checkToSeeIfPuzzleIsFinished(){
+// for each piece in puzzleArray, check if puzzleArray x and y values === piece x and y values
+// if finished (all values are true), endGame
+// else nothing
+}
+
+--- endGame(){
+// stop timer
+// log score
+// delete puzzleTable.innerHTML
+// delete randTableRow.innerHTML
+}
+
+--- log score(name, time, image, dimensions){
+// 
+}
+
+
+Event Listeners:
+
+--- startGameButton ('click', startGame);
+(event listeners for dragging pieces are dynamically created in populate tables function)
+
+
+
+
+
+
+Notes:
+- DOM needs to have 2 tables, one for the puzzle itself, and one to hold the list of randomized images to drag into the puzzle
+- second table needs to contain 1 tr to append td's to (this can be changed or removed depending on the wireframe for the game page)
+- there must be 3 directories for each image, each containing a collection of (sub-)images for dimensions of 2x2, 3x3, or 4x4.
+- as a stretch goal, we could find a way to slice each image according to specified dimensions in javascript, that way the user could specify any dimensions that they want.
