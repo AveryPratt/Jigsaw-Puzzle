@@ -1,0 +1,75 @@
+body {
+    width: 1300px;
+    height: 900px;
+}
+
+#aboutus {
+    margin-top: 140px;
+    margin-left: 120px;
+    font-size: 40px;
+}
+
+#team {
+    width: 1300px;
+}
+
+@keyframes slide-left {
+    from {
+        margin-left: 100%;
+    }
+    to {
+        margin-left: 0%;
+    }
+}
+
+#Avery {
+    margin-left: 120px;
+    width: 250px;
+    animation: slide-left 3s;
+}
+
+#aboutA {
+    width: 250px;
+}
+
+#conor {
+    width: 250px;
+    margin-left: 120px;
+    animation: slide-left 3s;
+}
+
+#aboutc {
+    width: 250px;
+}
+
+#top {
+    padding-top: 190px;
+    width: 400px;
+    margin-left: 200px;
+    float: left;
+}
+
+#bottom {
+    padding-top: 190px;
+    width: 400px;
+    float: right;
+    margin-right: 200px;
+}
+
+#sugey {
+    width: 250px;
+    animation: slide-left 5s;
+}
+
+#abouts {
+    width: 250px;
+}
+
+#erick {
+    width: 250px;
+    animation: slide-left 5s;
+}
+
+#aboute {
+    width: 250px;
+}
