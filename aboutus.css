@@ -9,9 +9,11 @@ body {
     font-size: 40px;
 }
 
+
 #team {
     width: 1300px;
 }
+
 
 @keyframes slide-left {
     from {
@@ -22,26 +24,73 @@ body {
     }
 }
 
+/*avery about me section*/
+#aver{
+  height:250px;
+  width: 250px;
+}
 #Avery {
     margin-left: 120px;
     width: 250px;
-    animation: slide-left 3s;
+        animation: slide-left 6s;
 }
 
 #aboutA {
     width: 250px;
 }
 
+
+
+/*conor about me section*/
 #conor {
     width: 250px;
     margin-left: 120px;
-    animation: slide-left 3s;
+    animation: slide-left 6s;
 }
 
 #aboutc {
     width: 250px;
 }
 
+#con{
+  height:250px;
+  width: 250px
+}
+/*sugey about section*/
+
+
+#sugey {
+  width: 250px;
+  animation: slide-left 10s;
+}
+
+
+#sue{
+  height:250px;
+  width: 250px
+}
+#abouts {
+  width: 250px;
+}
+
+/*erick about section*/
+
+#erick {
+  width: 250px;
+  animation: slide-left 10s;
+}
+
+#aboute {
+  width: 250px;
+}
+
+#eric{
+  height:250px;
+  width: 250px
+}
+
+
+/*sections*/
 #top {
     padding-top: 190px;
     width: 400px;
@@ -54,22 +103,4 @@ body {
     width: 400px;
     float: right;
     margin-right: 200px;
-}
-
-#sugey {
-    width: 250px;
-    animation: slide-left 5s;
-}
-
-#abouts {
-    width: 250px;
-}
-
-#erick {
-    width: 250px;
-    animation: slide-left 5s;
-}
-
-#aboute {
-    width: 250px;
 }

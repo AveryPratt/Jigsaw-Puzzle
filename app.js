@@ -39,8 +39,15 @@ function drawCanvas(){
 }
 
 function startButtonClick() {
-  populatePieces();
-  drawCanvas();
+
 }
 
-startGameButton.addEventListener('click', startButtonClick);
+
+function clearButtonClick() {
+  scoreBoard.innerHTML = '';
+}
+
+// startGameButton.addEventListener('click', startButtonClick);
+
+
+clearBoard.addEventListener('click', clearButtonClick);
