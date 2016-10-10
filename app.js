@@ -9,8 +9,6 @@ var y = 2;
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var startGameButton = document.getElementById('start-button');
-var scoreBoard = document.getElementById('scoreboard-table');
-var clearBoard = document.getElementById('clear-button');
 var pieces = [];
 
 function Piece(source){
