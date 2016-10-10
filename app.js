@@ -13,6 +13,7 @@ var scoreBoard = document.getElementById('scoreboard-table');
 var clearBoard = document.getElementById('clear-button');
 var pieces = [];
 
+
 function Piece(source){
   // this.img = document.createElement('img');
   // this.img.setAttribute('src', source);
@@ -36,6 +37,7 @@ function populatePieces(){
   }
   drawCanvas();
 }
+
 function drawCanvas(){
   console.log(pieces[0][0].img.src);
   console.log(pieces[0][0].img);
@@ -44,6 +46,19 @@ function drawCanvas(){
 
 function startButtonClick() {
   populatePieces();
+
+
+function Piece(source, randx, randy) {
+  this.x = source.slice(16, 17);
+  this.y = source.slice(18, 19);
+  this.randx = randx;
+  this.randy = randy;
+  this.imgSource = source;
 }
 
-startGameButton.addEventListener('click', startButtonClick);
+function clearButtonClick() {
+  scoreBoard.innerHTML = '';
+}
+
+// startGameButton.addEventListener('click', startButtonClick);
+clearBoard.addEventListener('click', clearButtonClick);
