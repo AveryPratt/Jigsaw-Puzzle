@@ -53,18 +53,34 @@ header {
 }
 
 form {
-  /*margin-top: 25%;*/
+  margin-top: 15%;
+  margin-left: 35%;
+  width: 29%;
+  text-align: center;
+  outline: none;
+}
+
+fieldset {
+  border: none;
+  border-radius: 25px;
+}
+
+#canvas {
+  position: absolute;
+  left: 39%;
+  top: 37%;
 }
 
 section {
-  width: 75%;
-  height: 85%;
+  width: 50%;
+  height: 50%;
   margin: auto;
   background-color: #161616;
   color: white;
+  border-radius: 25px;
   position: absolute;
   top: 25%;
-  left: 13%;
+  left: 24.5%;
 }
 
 button {
