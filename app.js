@@ -27,7 +27,7 @@ function Piece(source, ind){
 function populatePieces(){
   var locations = [];
   for (var i = 0; i < x; i++) {
-    pieces.push([]);
+    pieces[i] = [];
     for (var j = 0; j < y; j++) {
       myLocation = checkLocation(locations);
       pieces[i][j] = new Piece('img/easy/logo-' + loc.yy + '-' + loc.xx + '.png');
