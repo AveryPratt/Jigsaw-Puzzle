@@ -9,10 +9,7 @@ var y = 2;
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var startGameButton = document.getElementById('start-button');
-var scoreBoard = document.getElementById('scoreboard-table');
-var clearBoard = document.getElementById('clear-button');
 var pieces = [];
-
 
 function Piece(source){
   // this.img = document.createElement('img');
@@ -26,19 +23,17 @@ function Piece(source){
 };
 
 function populatePieces(){
-  console.log('populate pieces running');
   for (var i = 0; i < x; i++) {
     var newArr = [];
     pieces.push(newArr);
     for (var j = 0; j < y; j++) {
-      console.log(pieces);
       pieces[i][j] = new Piece('img/easy/logo-' + i + '-' + j + '.png');
     }
   }
-  drawCanvas();
 }
 
 function drawCanvas(){
+  console.log(pieces);
   console.log(pieces[0][0].img.src);
   console.log(pieces[0][0].img);
   ctx.drawImage(pieces[0][0].img, 0, 0, canvas.width, canvas.height);
@@ -46,19 +41,7 @@ function drawCanvas(){
 
 function startButtonClick() {
   populatePieces();
-
-
-function Piece(source, randx, randy) {
-  this.x = source.slice(16, 17);
-  this.y = source.slice(18, 19);
-  this.randx = randx;
-  this.randy = randy;
-  this.imgSource = source;
+  drawCanvas();
 }
 
-function clearButtonClick() {
-  scoreBoard.innerHTML = '';
-}
-
-// startGameButton.addEventListener('click', startButtonClick);
-clearBoard.addEventListener('click', clearButtonClick);
+startGameButton.addEventListener('click', startButtonClick);
