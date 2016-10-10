@@ -15,30 +15,37 @@ header {
 #nav {
   list-style-type: none;
   display: inline;
-  float: right;
   font: sans-serif;
   color: white;
-  /*margin-top: 2%;*/
-  width: 20%;
+  width: 350px;
   font-size: 19px;
-  position: fixed;
+  padding: 15px;
+  float: right;
 }
 
 #nav li {
   display: inline;
+  width: 100px;
 }
 
 #nav li a {
   text-decoration: none;
   color: white;
+  padding: 15px;
 }
 
-#secondnavitem {
-  margin-left: 5%;
+#nav li :hover {
+  background-color: #3c3a3a;
+  transition: background-color 350ms ease;
+  border-radius: 10px;
 }
 
 #title {
   font-size: 30pt;
+  position: fixed;
+  top: -1%;
+  left: 4%;
+
 }
 
 section {
@@ -60,4 +67,11 @@ button {
   position: absolute;
   left: 38%;
   bottom: 10%;
+  border: 5px solid #3c3a3a;
+}
+
+button:hover {
+  background-color: #3c3a3a;
+  transition: background-color 350ms ease;
+  border: 5px solid rgb(0, 126, 13);
 }
