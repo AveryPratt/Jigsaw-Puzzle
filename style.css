@@ -1,0 +1,23 @@
+html body {
+  background-color: #C7C7C7;
+}
+
+
+
+header {
+  background-color: #161616;
+  color: white;
+}
+section {
+  width: 75%;
+  margin: auto;
+  background-color: #161616;
+  color: white;
+}
+
+button {
+  background-color: #161616;
+  color: white;
+  width: 35%;
+  height: 8%;
+}
