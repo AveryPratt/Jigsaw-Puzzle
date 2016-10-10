@@ -16,7 +16,7 @@ var pieces = [];
 function Piece(source){
   // this.img = document.createElement('img');
   // this.img.setAttribute('src', source);
-  this.img = new Image();
+  this.img = new Image(100, 100);
   this.img.src = source;
   this.x = source.slice(14, 15);
   this.y = source.slice(16, 17);
@@ -25,18 +25,16 @@ function Piece(source){
 };
 
 function populatePieces(){
-  console.log('populate pieces running');
   for (var i = 0; i < x; i++) {
     var newArr = [];
     pieces.push(newArr);
     for (var j = 0; j < y; j++) {
-      console.log(pieces);
       pieces[i][j] = new Piece('img/easy/logo-' + i + '-' + j + '.png');
     }
   }
-  drawCanvas();
 }
 function drawCanvas(){
+  console.log(pieces);
   console.log(pieces[0][0].img.src);
   console.log(pieces[0][0].img);
   ctx.drawImage(pieces[0][0].img, 0, 0, canvas.width, canvas.height);
@@ -44,6 +42,7 @@ function drawCanvas(){
 
 function startButtonClick() {
   populatePieces();
+  drawCanvas();
 }
 
 startGameButton.addEventListener('click', startButtonClick);
