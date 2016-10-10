@@ -12,6 +12,10 @@ header {
   height: 100px;
 }
 
+.hide {
+  display: none;
+}
+
 #nav {
   list-style-type: none;
   display: inline;
@@ -48,12 +52,14 @@ header {
 
 }
 
+
 section {
   width: 75%;
   height: 85%;
   margin: auto;
   background-color: #161616;
   color: white;
+  clear: both;
 }
 
 button {
