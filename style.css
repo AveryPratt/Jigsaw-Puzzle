@@ -59,13 +59,13 @@ button {
 
 #secondnavitem {
   margin-left: 5%;
-  /*padding-right: 1%;*/
 }
 
 #title {
   font-size: 30pt;
   position: fixed;
   left: 2%;
+  bottom: 88%;
 }
 
 header {
