@@ -72,6 +72,7 @@ function drawCanvas(){
   for (var i = 0; i < pieces.length; i++) {
     for (var j = 0; j < pieces[i].length; j++) {
       ctx.drawImage(pieces[i][j].img, i * (canvas.width / x), j * (canvas.height / y), canvas.width / x, canvas.height / y);
+      ctx.strokeRect(i * (canvas.width / x), j * (canvas.height / y), canvas.width / x, canvas.height / y);
     }
   }
   console.log('pieces: ', pieces);
