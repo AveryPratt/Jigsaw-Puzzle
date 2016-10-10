@@ -21,7 +21,10 @@ body {
         margin-left: 0%;
     }
 }
-
+#aver{
+  height:250px;
+  width: 250px;
+}
 #Avery {
     margin-left: 120px;
     width: 250px;
