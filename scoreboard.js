@@ -15,5 +15,9 @@ function clearButtonClick() {
 
 // startGameButton.addEventListener('click', startButtonClick);
 
+function addScore(timer,playerName,){
+  
 
+
+}
 clearBoard.addEventListener('click', clearButtonClick);
