@@ -1,18 +1,29 @@
 body {
     width: 1300px;
     height: 900px;
+    background-color: #c7c7c7;
 }
 
 #aboutus {
     margin-top: 140px;
     margin-left: 120px;
     font-size: 40px;
+
 }
 
 
 #team {
     width: 1300px;
 }
+
+
+
+
+
+
+
+
+
 
 
 @keyframes slide-left {
@@ -71,6 +82,13 @@ body {
 }
 #abouts {
   width: 250px;
+  font-size: 18px;
+}
+
+#suev{
+  font-family: 'Lobster', cursive;
+  color: blue;
+  font-size: 24px;
 }
 
 /*erick about section*/
@@ -82,24 +100,29 @@ body {
 
 #aboute {
   width: 250px;
+  font-size: 18px;
 }
 
 #eric{
   height:250px;
   width: 250px
 }
-
+#ericn{
+  font: helvetica;
+  font-size: 24px;
+  color: teal;
+}
 
 /*sections*/
 #top {
-    padding-top: 190px;
+    padding-top: 160px;
     width: 400px;
     margin-left: 200px;
     float: left;
 }
 
 #bottom {
-    padding-top: 190px;
+    padding-top: 160px;
     width: 400px;
     float: right;
     margin-right: 200px;
