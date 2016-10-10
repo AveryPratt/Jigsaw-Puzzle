@@ -1,6 +1,6 @@
 body {
     width: 1300px;
-    height: 900px;
+    height: 1300px;
     background-color: #c7c7c7;
 }
 
@@ -8,23 +8,11 @@ body {
     margin-top: 140px;
     margin-left: 120px;
     font-size: 40px;
-
 }
-
 
 #team {
     width: 1300px;
 }
-
-
-
-
-
-
-
-
-
-
 
 @keyframes slide-left {
     from {
@@ -35,24 +23,69 @@ body {
     }
 }
 
+
 /*avery about me section*/
-#aver{
-  height:250px;
-  width: 250px;
+
+#agrow img {
+    height: 250px;
+    width: 250px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    border: 5px solid black;
 }
+
+#agrow img:hover {
+    border-radius: 50%;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
 #Avery {
     margin-left: 120px;
-    width: 250px;
-        animation: slide-left 6s;
+    width: 350px;
+    animation: slide-left 6s;
 }
 
 #aboutA {
     width: 250px;
+    font-size: 18px;
+}
+
+#averp {
+    font-family: 'Nova Flat', cursive;
+    color: blue;
+    font-size: 24px;
 }
 
 
-
 /*conor about me section*/
+
+#cgrow img {
+    height: 250px;
+    width: 250px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    border: 5px solid black;
+}
+
+#cgrow img:hover {
+    border-radius: 50%;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
 #conor {
     width: 250px;
     margin-left: 120px;
@@ -61,69 +94,114 @@ body {
 
 #aboutc {
     width: 250px;
+    font-size: 18px;
 }
 
-#con{
-  height:250px;
-  width: 250px
+#con {
+    height: 250px;
+    width: 250px
 }
+
+#conc {
+    color: Purple;
+    font-size: 24px;
+    font-family: 'Lalezar', cursive;
+}
+
+
 /*sugey about section*/
 
-
 #sugey {
-  width: 250px;
-  animation: slide-left 10s;
+    width: 250px;
+    animation: slide-left 8s;
 }
 
-
-#sue{
-  height:250px;
-  width: 250px
+#sgrow img {
+    height: 250px;
+    width: 250px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    border: 5px solid black;
 }
+
+#sgrow img:hover {
+    border-radius: 50%;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
 #abouts {
-  width: 250px;
-  font-size: 18px;
+    width: 280px;
+    font-size: 18px;
+    margin-bottom: 100px;
 }
 
-#suev{
-  font-family: 'Lobster', cursive;
-  color: blue;
-  font-size: 24px;
+#suev {
+    font-family: 'Lobster', cursive;
+    color: blue;
+    font-size: 24px;
 }
+
 
 /*erick about section*/
 
 #erick {
-  width: 250px;
-  animation: slide-left 10s;
+    width: 250px;
+    animation: slide-left 8s;
+}
+
+#egrow img {
+    height: 250px;
+    width: 250px;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    border: 5px solid black;
+}
+
+#egrow img:hover {
+    border-radius: 50%;
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
 }
 
 #aboute {
-  width: 250px;
-  font-size: 18px;
+    width: 280px;
+    font-size: 18px;
 }
 
-#eric{
-  height:250px;
-  width: 250px
+#ericn {
+    font: helvetica;
+    font-size: 24px;
+    color: teal;
 }
-#ericn{
-  font: helvetica;
-  font-size: 24px;
-  color: teal;
-}
+
 
 /*sections*/
+
 #top {
-    padding-top: 160px;
+    padding-top: 100px;
     width: 400px;
-    margin-left: 200px;
+    margin-left: 250px;
     float: left;
+    margin-bottom: 150px;
 }
 
 #bottom {
-    padding-top: 160px;
-    width: 400px;
+    padding-top: 100px;
+    width: 300px;
     float: right;
-    margin-right: 200px;
+    margin-right: 300px;
+    margin-bottom: 150px;
 }
