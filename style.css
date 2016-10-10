@@ -4,12 +4,16 @@ html body {
 
 body {
   width: 99%;
-  margin: auto;
+  margin: 0 auto;
 }
 
 header {
   background-color: #161616;
   color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 10%;
 }
 section {
   width: 75%;
@@ -23,8 +27,50 @@ button {
   background-color: #161616;
   color: white;
   width: 35%;
-  height: 8%;
   border-radius: 25px;
   font-size: 2.5em;
   margin: auto;
+  clear: both;
+  position: absolute;
+  left: 38%;
+  bottom: 10%;
+}
+
+#nav {
+  list-style-type: none;
+  display: inline;
+  float: right;
+  font: sans-serif;
+  color: white;
+  margin-right: 9%;
+  margin-top: 2%;
+  width: 20%;
+  font-size: 19px;
+}
+
+#nav li {
+  display: inline;
+}
+
+#nav li a {
+  text-decoration: none;
+  color: white;
+}
+
+#secondnavitem {
+  margin-left: 5%;
+  /*padding-right: 1%;*/
+}
+
+#title {
+  font-size: 30pt;
+  position: fixed;
+  left: 2%;
+}
+
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
 }

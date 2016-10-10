@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" type="text/css">
     <meta charset="utf-8">
     <title>Jigsaw Puzzle</title>
   </head>
-
   <body>
     <header>
-      <nav></nav>
+      <nav>
+        <h1 id="title">Jigsaw Puzzle</h1>
+        <ul id="nav">
+          <li><a href="scoreboard.html">SCOREBOARD</a></li>
+          <li id="secondnavitem"><a href="aboutus.html">ABOUT</a></li>
+        </ul>
+      </nav>
     </header>
     <form>
       <fieldset>
         <label for="name">Enter Your Name:</label>
         <input id="player-name" name="name" type="text">
         <br>
-        <button id="start-button" type="Submit">
+        <button id="start-button" type="Submit">START</button>
       </fieldset>
     </form>
     <canvas id="canvas"></canvas>
