@@ -31,6 +31,7 @@ function populatePieces(){
     }
   }
 }
+
 function drawCanvas(){
   console.log(pieces);
   console.log(pieces[0][0].img.src);
@@ -39,15 +40,8 @@ function drawCanvas(){
 }
 
 function startButtonClick() {
-
+  populatePieces();
+  drawCanvas();
 }
 
-
-function clearButtonClick() {
-  scoreBoard.innerHTML = '';
-}
-
-// startGameButton.addEventListener('click', startButtonClick);
-
-
-clearBoard.addEventListener('click', clearButtonClick);
+startGameButton.addEventListener('click', startButtonClick);
