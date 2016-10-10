@@ -52,6 +52,9 @@ header {
 
 }
 
+form {
+  /*margin-top: 25%;*/
+}
 
 section {
   width: 75%;
@@ -59,7 +62,9 @@ section {
   margin: auto;
   background-color: #161616;
   color: white;
-  clear: both;
+  position: absolute;
+  top: 25%;
+  left: 13%;
 }
 
 button {
@@ -71,7 +76,7 @@ button {
   margin: auto;
   clear: both;
   position: absolute;
-  left: 38%;
+  left: 32%;
   bottom: 10%;
   border: 5px solid #3c3a3a;
 }
