@@ -36,10 +36,31 @@ body {
 }
 
 /*avery about me section*/
-#aver{
+
+#agrow{
   height:250px;
   width: 250px;
+  border: 5px solid black;
+  overflow: hidden;
 }
+
+#agrow img {
+  height:250px;
+  width: 250px;
+
+  -webkit-transition: all 1s ease;
+     -moz-transition: all 1s ease;
+       -o-transition: all 1s ease;
+      -ms-transition: all 1s ease;
+          transition: all 1s ease;
+}
+
+#agrow img:hover {
+  width: 350px;
+  height: 350px;
+
+}
+
 #Avery {
     margin-left: 120px;
     width: 250px;
@@ -61,11 +82,18 @@ body {
 
 #aboutc {
     width: 250px;
+      font-size: 18px;
 }
 
 #con{
   height:250px;
   width: 250px
+}
+
+#conc{
+  color: Purple;
+  font-size: 24px;
+  font-family: 'Lalezar', cursive;
 }
 /*sugey about section*/
 
