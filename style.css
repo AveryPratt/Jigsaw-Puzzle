@@ -2,19 +2,45 @@ html body {
   background-color: #C7C7C7;
 }
 
-body {
-  width: 99%;
-  margin: 0 auto;
-}
-
 header {
   background-color: #161616;
   color: white;
   position: fixed;
+  width: 100%;
   top: 0;
   left: 0;
-  height: 10%;
+  height: 100px;
 }
+
+#nav {
+  list-style-type: none;
+  display: inline;
+  float: right;
+  font: sans-serif;
+  color: white;
+  /*margin-top: 2%;*/
+  width: 20%;
+  font-size: 19px;
+  position: fixed;
+}
+
+#nav li {
+  display: inline;
+}
+
+#nav li a {
+  text-decoration: none;
+  color: white;
+}
+
+#secondnavitem {
+  margin-left: 5%;
+}
+
+#title {
+  font-size: 30pt;
+}
+
 section {
   width: 75%;
   height: 85%;
@@ -34,43 +60,4 @@ button {
   position: absolute;
   left: 38%;
   bottom: 10%;
-}
-
-#nav {
-  list-style-type: none;
-  display: inline;
-  float: right;
-  font: sans-serif;
-  color: white;
-  margin-right: 9%;
-  margin-top: 2%;
-  width: 20%;
-  font-size: 19px;
-}
-
-#nav li {
-  display: inline;
-}
-
-#nav li a {
-  text-decoration: none;
-  color: white;
-}
-
-#secondnavitem {
-  margin-left: 5%;
-}
-
-#title {
-  font-size: 30pt;
-  position: fixed;
-  left: 2%;
-  bottom: 88%;
-}
-
-header {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
 }

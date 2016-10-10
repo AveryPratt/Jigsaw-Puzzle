@@ -14,8 +14,13 @@ var clearBoard = document.getElementById('clear-button');
 var pieces = [];
 
 function Piece(source){
-  this.img = document.createElement('img');
-  this.img.setAttribute('src', source);
+  // this.img = document.createElement('img');
+  // this.img.setAttribute('src', source);
+  this.img = new Image();
+  this.img.src = source;
+  this.img.onload = function(){
+    stage.drawImage(this.img, canvas.width, canvas.height);
+  };
   this.x = source.slice(16, 17);
   this.y = source.slice(18, 19);
   // this.randx = randx;
@@ -29,6 +34,18 @@ function populatePieces(){
       pieces[i][j] = new Piece('./img/easy/logo-' + i + '-' + j + '.png');
     }
   }
-  stage.drawImage(pieces[0][0].img, canvas.width, canvas.height);
 }
-populatePieces();
+function drawCanvas(){
+  for (var i = 0; i < x; i++) {
+    for (var j = 0; j < y; j++) {
+      array[i][j].img.onload();
+    }
+  }
+}
+
+function startButtonClick() {
+  populatePieces();
+  drawCanvas();
+}
+
+startGameButton.addEventListener('click', startButtonClick);
