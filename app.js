@@ -34,19 +34,33 @@ function generateRandLocation(minY, maxY, minX, maxX){
   return new ArrayLocation(randY, randX);
 }
 
-function generateNewLocation(locationsUsed){
+function generateNewLocation(locationsUsed, yIndex, xIndex){
   var currentLocation = generateRandLocation(0, yDimension, 0, xDimension);
-  var passed = true;
-  for (var i = 0; i < locationsUsed.length; i++) {
-    if(currentLocation.yLocationIndex === locationsUsed[i].yLocationIndex && currentLocation.xLocationIndex === locationsUsed[i].xLocationIndex) {
-      passed = false;
+  if(checkUsedLocations(currentLocation, locationsUsed)){
+    if(checkCurrentLocation(currentLocation, yIndex, xIndex)){
+      return currentLocation;
     }
   }
-  if(passed === false){
-    return generateNewLocation(locationsUsed);
-  } else {
-    return currentLocation;
+  console.log('failed: (' + yIndex + '-' + xIndex + '): ' + currentLocation.yLocationIndex + '-' + currentLocation.xLocationIndex);
+  return generateNewLocation(locationsUsed, yIndex, xIndex);
+}
+function checkUsedLocations(currentLocation, locationsUsed){
+  for (var i = 0; i < locationsUsed.length; i++) {
+    if(currentLocation.yLocationIndex === locationsUsed[i].yLocationIndex && currentLocation.xLocationIndex === locationsUsed[i].xLocationIndex) {
+      return false;
+    }
   }
+  return true;
+}
+function checkCurrentLocation(currentLocation, yIndex, xIndex){
+  if(yIndex === yDimension - 1 && xIndex === xDimension - 1){ // this statement is necessary to avoid last position having no valid options
+    return true;
+  }
+  if(currentLocation.xLocationIndex === xIndex && currentLocation.yLocationIndex === yIndex){
+    // console.log('same location: ' + yIndex + '-' + xIndex + ' ' + currentLocation.yLocationIndex + '-' + currentLocation.xLocationIndex);
+    return false;
+  }
+  else return true;
 }
 
 function populatePieces(){
@@ -54,8 +68,8 @@ function populatePieces(){
   for (var i = 0; i < yDimension; i++) { // i = y index
     pieces[i] = [];
     for (var j = 0; j < xDimension; j++) { // j = x index
-      var myLocation = generateNewLocation(locationsUsed);
-      console.log('Piece ' + i + '-' + j + ' Y: ' + myLocation.yLocationIndex + ' X: ' + myLocation.xLocationIndex);
+      var myLocation = generateNewLocation(locationsUsed, i, j);
+      console.log('Piece: (' + i + '-' + j + ') = ' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex);
       pieces[i][j] = new Piece('img/easy/logo-' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex + '.png');
       locationsUsed.push(myLocation);
     }
@@ -82,6 +96,7 @@ function startButtonClick(event) {
   populatePieces();
   drawCanvas();
   event.target.playerName.value = null;
+  console.log(checkFinished());
 }
 
 function checkFinished(){
