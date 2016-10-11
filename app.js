@@ -1,6 +1,14 @@
 'use strict';
 
 var timer = 0;
+var mouse = {
+  x: 0,
+  y: 0
+};
+var currentPiece = null;
+var currentDropPiece = null;
+var currentPieceLocation = null;
+var currentDropPieceLocation = null;
 // var myLocation;
 // // var dimensions = document.getElementById('dimensions');
 // var x = 2;
@@ -113,5 +121,37 @@ function checkFinished(){
   }
   return isFinished;
 }
+
+function getMousePosition(event){
+  mouse.x = event.layerX;
+  mouse.y = event.layerY;
+}
+function handleCanvasMousedown(event){
+  getMousePosition(event);
+  var xValue = mouse.x / (canvas.width / xDimension);
+  var yValue = mouse.y / (canvas.height / yDimension);
+  currentPieceLocation = new ArrayLocation(Math.floor(yValue), Math.floor(xValue));
+  console.log(currentPiece);
+  currentPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
+}
+function handleCanvasMouseup(event){
+  getMousePosition(event);
+  var xValue = mouse.x / (canvas.width / xDimension);
+  var yValue = mouse.y / (canvas.height / yDimension);
+  currentDropPieceLocation = new ArrayLocation(Math.floor(yValue), Math.floor(xValue));
+  console.log(currentDropPiece);
+  currentDropPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
+  swapPieces(currentPiece, currentDropPiece);
+}
+function swapPieces(currentPiece, currentDropPiece){
+  console.log('swapPieces');
+  var temp = currentPiece;
+  pieces[currentPieceLocation.yLocationIndex][currentPieceLocation.xLocationIndex] = currentDropPiece;
+  pieces[currentDropPieceLocation.yLocationIndex][currentDropPieceLocation.xLocationIndex] = temp;
+  drawCanvas();
+}
+
+canvasEl.addEventListener('mousedown', handleCanvasMousedown);
+canvasEl.addEventListener('mouseup', handleCanvasMouseup);
 
 gameForm.addEventListener('submit', startButtonClick);
