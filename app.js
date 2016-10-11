@@ -1,12 +1,18 @@
 'use strict';
 
 var timer = 0;
+// var myLocation;
+// // var dimensions = document.getElementById('dimensions');
+// var x = 2;
+// var y = 2;
 var xDimension = 2;
 var yDimension = 2;
 
 var canvasEl = document.getElementById('canvas');
 var ctx = canvasEl.getContext('2d');
-var startGameButtonEl = document.getElementById('start-button');
+var gameForm = document.getElementById('gameForm');
+// var startGameButtonEl = document.getElementById('start-button');
+var playerNameInputEl = document.getElementById('playerName');
 var pieces = [];
 
 function Piece(source){
@@ -66,10 +72,16 @@ function drawCanvas(){
   console.log('pieces: ', pieces);
 }
 
-function startButtonClick() {
+function startButtonClick(event) {
+  event.preventDefault();
+  playerNameInputEl = event.target.playerName.value;
+  var playerNameStringified = JSON.stringify(playerNameInputEl);
+  localStorage.setItem('playerNameLSEl', playerNameStringified);
+  var timerStringified = JSON.stringify(timer);
+  localStorage.setItem('timerLSEl', timerStringified);
   populatePieces();
   drawCanvas();
-  console.log(checkFinished());
+  event.target.playerName.value = null;
 }
 
 function checkFinished(){
@@ -87,4 +99,4 @@ function checkFinished(){
   return isFinished;
 }
 
-startGameButtonEl.addEventListener('click', startButtonClick);
+gameForm.addEventListener('submit', startButtonClick);
