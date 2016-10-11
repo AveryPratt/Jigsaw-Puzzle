@@ -21,6 +21,7 @@ function addScore(){
   var timerLiEl = JSON.parse(timerLocalStorageEl);
   var LiElId = document.createElement('li');
   LiElId.textContent = playerNameLiEl + ' ' + timerLiEl;
+  LiElId.setAttribute('class', 'scoreList');
   scoreBoardListEl.appendChild(LiElId);
 }
 
