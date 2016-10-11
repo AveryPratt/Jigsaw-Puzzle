@@ -9,18 +9,8 @@ body {
 }
 
 #team {
-    width: 99%;
-    margin: auto;
-    margin-left: 15%;
-}
-
-@keyframes slide-left {
-    from {
-        margin-left: 100%;
-    }
-    to {
-        margin-left: 0%;
-    }
+  width: 85%;
+  margin: auto;
 }
 
 figcaption {
@@ -32,12 +22,12 @@ figcaption {
 
 #top {
   /*padding-top: 100px;*/
-  width: 100%;
+  width: 40%;
   /*height: 800px;*/
   /*margin-left: 250px;*/
   /*float: left;*/
   /*margin-bottom: 150px;*/
-  display: inline-block;
+  display: inline;
   margin: auto;
   /*margin-left: 6%;*/
 }
@@ -46,6 +36,7 @@ figcaption {
 
 #agrow {
   display: inline-block;
+  margin-top: 1%;
 }
 
 #agrow img {
@@ -74,6 +65,7 @@ figcaption {
     width: 350px;
     animation: slide-left 6s;
     display: inline;
+    margin: auto;
 }
 
 #aboutA {
@@ -93,6 +85,7 @@ figcaption {
 
 #cgrow {
   display: inline-block;
+  margin-top: 1%;
 }
 
 #cgrow img {
@@ -120,6 +113,7 @@ figcaption {
     /*margin-left: 120px;*/
     animation: slide-left 6s;
     display: inline;
+    margin: auto;
 }
 
 #aboutc {
@@ -142,12 +136,12 @@ figcaption {
 
 #bottom {
   /*padding-top: 100px;*/
-  width: 100%;
+  width: 40%;
   /*height: 1200px;*/
   /*float: right;*/
   /*margin-right: 300px;*/
   /*margin-bottom: 150px;*/
-  display: inline-block;
+  display: inline;
   margin-top: 2.5%;
   /*margin-left: 6%;*/
 }
@@ -162,6 +156,7 @@ figcaption {
 
 #sgrow {
   display: inline-block;
+  margin-top: 1%;
 }
 
 #sgrow img {
@@ -205,10 +200,12 @@ figcaption {
     width: 250px;
     animation: slide-left 8s;
     display: inline;
+    margin-top: 1%;
 }
 
 #egrow {
   display: inline-block;
+  margin-top: 1%;
 }
 
 #egrow img {
@@ -241,4 +238,13 @@ figcaption {
     font: helvetica;
     font-size: 24px;
     color: teal;
+}
+
+@keyframes slide-left {
+    from {
+        margin-left: 100%;
+    }
+    to {
+        margin-left: 0%;
+    }
 }
