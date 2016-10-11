@@ -17,6 +17,7 @@ var timerOn = false;
 var stopTime = 0;
 var currentTime;
 var startingTime;
+var timerStringified;
 
 // DOM variables
 var gameForm = document.getElementById('gameForm');
@@ -122,6 +123,9 @@ function swapPieces(currentPiece, currentDropPiece){
 // event handlers
 function handleStartButtonClick(event) {
   event.preventDefault();
+  timer = 0;
+  timerStringified = JSON.stringify(timer);
+  localStorage.setItem('timerLSEl', timerStringified);
   playerNameInputEl = event.target.playerName.value;
   var playerNameStringified = JSON.stringify(playerNameInputEl);
   localStorage.setItem('playerNameLSEl', playerNameStringified);
@@ -151,27 +155,49 @@ function handleCanvasMouseup(event){
     console.log('You won!');
     gameTimer(startingTime);
     timer = ' | ' + timeInMMSS(stopTime);
-    var timerStringified = JSON.stringify(timer);
+    timerStringified = JSON.stringify(timer);
     localStorage.setItem('timerLSEl', timerStringified);
   }
 }
 
 
-function gameTimer(startingTime){
-  currentTime = Date.now();
-  var timeDifference = currentTime - startingTime;
+function gameTimer(elem, options){
+  var timer = createTimer();
+  var startButton = createButton('start', start);
+  var stopButton = createButton('stop', stop);
+  var resetButton = createButton('reset', reset);
+  var offset;
+  var clock;
+  var interval;
 
-  if (timerOn === false){
-    timeDifference = timeDifference + stopTime;
+  elem.appendChild(timer);
+  elem.appendChild(startButton);
+  elem.appendChild(stopButton);
+  elem.appendChild(resetButton);
+
+  reset();
+
+  function createTimer(){
+    return document.createElement("span");
   }
 
-  if (timerOn === true){
-    timer.value = timeInMMSS(timeDifference);
-    var refresh = setTimeout('gameTimer()', 100);
-  } else {
-    window.clearTimeout(refresh);
-    stopTime = timeDifference;
+  function createButton(action, handler){
+    
   }
+  // currentTime = Date.now();
+  // var timeDifference = currentTime - startingTime;
+  //
+  // if (timerOn === false){
+  //   timeDifference = timeDifference + stopTime;
+  // }
+  //
+  // if (timerOn === true){
+  //   timer.value = timeInMMSS(timeDifference);
+  //   var refresh = setTimeout('gameTimer()', 100);
+  // } else {
+  //   window.clearTimeout(refresh);
+  //   stopTime = timeDifference;
+  // }
 }
 
 function timeInMMSS(rawTime){
