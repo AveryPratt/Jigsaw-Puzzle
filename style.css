@@ -102,3 +102,7 @@ button:hover {
   transition: background-color 350ms ease;
   border: 5px solid rgb(0, 126, 13);
 }
+
+canvas {
+
+}

@@ -10,7 +10,8 @@ var timerLocalStorageEl = localStorage.getItem('timerLSEl');
 
 
 function clearButtonClick() {
-  scoreBoard.innerHTML = '';
+  localStorage.clear();
+  scoreBoardListEl.innerHTML = '';
 }
 
 // startGameButton.addEventListener('click', startButtonClick);
