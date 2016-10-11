@@ -72,8 +72,8 @@ fieldset {
 }
 
 section {
-  width: 50%;
-  height: 50%;
+  min-width: 50%;
+  min-height: 50%;
   margin: auto;
   background-color: #161616;
   color: white;
@@ -101,6 +101,12 @@ button:hover {
   background-color: #3c3a3a;
   transition: background-color 350ms ease;
   border: 5px solid rgb(0, 126, 13);
+}
+
+.scoreList {
+  font-size: 2em;
+  font-family: sans-serif;
+  margin-left: 5%;
 }
 
 canvas {
