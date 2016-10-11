@@ -3,14 +3,15 @@ body {
 }
 
 #aboutus {
-    margin-top: 20%;
-    font-size: 40px;
+    margin-top: 200px;
+    font-size: 300%;
     text-align: center;
 }
 
 #team {
   width: 85%;
   margin: auto;
+    animation: slide-left 8s;
 }
 
 figcaption {
@@ -37,6 +38,9 @@ figcaption {
 #agrow {
   display: inline-block;
   margin-top: 1%;
+  height: 558px;
+width: 270px;
+margin-right: 5%;
 }
 
 #agrow img {
@@ -61,22 +65,25 @@ figcaption {
 }
 
 #Avery {
-    /*margin-left: 20%;*/
-    width: 350px;
-    animation: slide-left 6s;
+    margin-left: 20%;
+    width: 320px;
+    /*animation: slide-left 6s;*/
     display: inline;
-    margin: auto;
+    /*margin: auto;*/
+        /*margin-right: 10%;*/
+            /*margin-left: 20%;*/
 }
 
 #aboutA {
-    width: 260px;
+    width: 270px;
+    height: 300px;
     font-size: 18px;
     display: inline-block;
 }
 
 #averp {
     font-family: 'Nova Flat', cursive;
-    color: blue;
+    color:purple;
     font-size: 24px;
 }
 
@@ -86,6 +93,7 @@ figcaption {
 #cgrow {
   display: inline-block;
   margin-top: 1%;
+      margin-right: 40%;
 }
 
 #cgrow img {
@@ -111,16 +119,19 @@ figcaption {
 #conor {
     width: 250px;
     /*margin-left: 120px;*/
-    animation: slide-left 6s;
+    /*animation: slide-left 6s;*/
     display: inline;
     margin: auto;
 }
 
 #aboutc {
-    width: 260px;
-    font-size: 18px;
-    display: inline-block;
+  width: 260px;
+/* height: 290px; */
+font-size: 18px;
+display: inline-block;
+
 }
+
 
 #con {
     height: 250px;
@@ -150,13 +161,15 @@ figcaption {
 
 #sugey {
     width: 250px;
-    animation: slide-left 8s;
+    /*animation: slide-left 8s;*/
     display: inline;
 }
 
 #sgrow {
   display: inline-block;
   margin-top: 1%;
+      margin-left: 20%;
+        margin-right: 4%;
 }
 
 #sgrow img {
@@ -181,10 +194,10 @@ figcaption {
 }
 
 #abouts {
-    width: 260px;
+    width: 280px;
     font-size: 18px;
     /*margin-bottom: 100px;*/
-    display: inline-block;
+    /*display: inline-block;*/
 }
 
 #suev {
@@ -198,7 +211,7 @@ figcaption {
 
 #erick {
     width: 250px;
-    animation: slide-left 8s;
+    /*animation: slide-left 8s;*/
     display: inline;
     margin-top: 1%;
 }
@@ -229,7 +242,7 @@ figcaption {
 }
 
 #aboute {
-    width: 260px;
+    width: 320px;
     font-size: 18px;
     display: inline-block;
 }
