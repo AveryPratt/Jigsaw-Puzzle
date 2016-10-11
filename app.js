@@ -1,28 +1,27 @@
 'use strict';
 
+// global variables
 var timer = 0;
 var mouse = {
   x: 0,
   y: 0
 };
-var currentPiece = null;
-var currentDropPiece = null;
-var currentPieceLocation = null;
-var currentDropPieceLocation = null;
-// var myLocation;
-// // var dimensions = document.getElementById('dimensions');
-// var x = 2;
-// var y = 2;
+var currentPiece;
+var currentDropPiece;
+var currentPieceLocation;
+var currentDropPieceLocation;
 var xDimension = 2;
 var yDimension = 2;
-
-var canvasEl = document.getElementById('canvas');
-var ctx = canvasEl.getContext('2d');
-var gameForm = document.getElementById('gameForm');
-// var startGameButtonEl = document.getElementById('start-button');
-var playerNameInputEl = document.getElementById('playerName');
 var pieces = [];
 
+// DOM variables
+var gameForm = document.getElementById('gameForm');
+var startGameButtonEl = document.getElementById('start-button');
+var playerNameInputEl = document.getElementById('playerName');
+var canvasEl = document.getElementById('canvas');
+var ctx = canvasEl.getContext('2d');
+
+// constructors
 function Piece(source){
   this.img = new Image();
   this.img.src = source;
@@ -30,18 +29,17 @@ function Piece(source){
   this.yPieceIndex = source.slice(14, 15);
   this.xPieceIndex = source.slice(16, 17);
 };
-
 function ArrayLocation(yLocationIndex, xLocationIndex){
   this.yLocationIndex = yLocationIndex;
   this.xLocationIndex = xLocationIndex;
 }
 
+// functions
 function generateRandLocation(minY, maxY, minX, maxX){
   var randY = Math.round(Math.random(minY, maxY));
   var randX = Math.round(Math.random(minX, maxX));
   return new ArrayLocation(randY, randX);
 }
-
 function generateNewLocation(locationsUsed, yIndex, xIndex){
   var currentLocation = generateRandLocation(0, yDimension, 0, xDimension);
   if(checkUsedLocations(currentLocation, locationsUsed)){
@@ -70,7 +68,6 @@ function checkCurrentLocation(currentLocation, yIndex, xIndex){
   }
   else return true;
 }
-
 function populatePieces(){
   var locationsUsed = [];
   for (var i = 0; i < yDimension; i++) { // i = y index
@@ -83,7 +80,6 @@ function populatePieces(){
     }
   }
 }
-
 function drawCanvas(){
   for (var i = 0; i < pieces.length; i++) { // i = y index
     for (var j = 0; j < pieces[i].length; j++) { // j = x index
@@ -93,20 +89,6 @@ function drawCanvas(){
   }
   console.log('pieces: ', pieces);
 }
-
-function startButtonClick(event) {
-  event.preventDefault();
-  playerNameInputEl = event.target.playerName.value;
-  var playerNameStringified = JSON.stringify(playerNameInputEl);
-  localStorage.setItem('playerNameLSEl', playerNameStringified);
-  var timerStringified = JSON.stringify(timer);
-  localStorage.setItem('timerLSEl', timerStringified);
-  populatePieces();
-  drawCanvas();
-  event.target.playerName.value = null;
-  console.log(checkFinished());
-}
-
 function checkFinished(){
   var isFinished = true;
   for (var i = 0; i < pieces.length; i++) { // i = y index
@@ -121,10 +103,30 @@ function checkFinished(){
   }
   return isFinished;
 }
-
 function getMousePosition(event){
   mouse.x = event.layerX;
   mouse.y = event.layerY;
+}
+function swapPieces(currentPiece, currentDropPiece){
+  console.log('swapPieces');
+  var temp = currentPiece;
+  pieces[currentPieceLocation.yLocationIndex][currentPieceLocation.xLocationIndex] = currentDropPiece;
+  pieces[currentDropPieceLocation.yLocationIndex][currentDropPieceLocation.xLocationIndex] = temp;
+  drawCanvas();
+}
+
+// event handlers
+function handleStartButtonClick(event) {
+  event.preventDefault();
+  playerNameInputEl = event.target.playerName.value;
+  var playerNameStringified = JSON.stringify(playerNameInputEl);
+  localStorage.setItem('playerNameLSEl', playerNameStringified);
+  var timerStringified = JSON.stringify(timer);
+  localStorage.setItem('timerLSEl', timerStringified);
+  populatePieces();
+  drawCanvas();
+  event.target.playerName.value = null;
+  console.log(checkFinished());
 }
 function handleCanvasMousedown(event){
   getMousePosition(event);
@@ -142,16 +144,12 @@ function handleCanvasMouseup(event){
   console.log(currentDropPiece);
   currentDropPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
   swapPieces(currentPiece, currentDropPiece);
-}
-function swapPieces(currentPiece, currentDropPiece){
-  console.log('swapPieces');
-  var temp = currentPiece;
-  pieces[currentPieceLocation.yLocationIndex][currentPieceLocation.xLocationIndex] = currentDropPiece;
-  pieces[currentDropPieceLocation.yLocationIndex][currentDropPieceLocation.xLocationIndex] = temp;
-  drawCanvas();
+  if(checkFinished()){
+    console.log('You won!');
+  }
 }
 
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
 canvasEl.addEventListener('mouseup', handleCanvasMouseup);
 
-gameForm.addEventListener('submit', startButtonClick);
+gameForm.addEventListener('submit', handleStartButtonClick);
