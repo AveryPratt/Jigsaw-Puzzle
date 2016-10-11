@@ -1,87 +1,90 @@
 'use strict';
 
 var timer = 0;
-var myLocation;
-// var dimensions = document.getElementById('dimensions');
-var x = 2;
-var y = 2;
+var xDimension = 2;
+var yDimension = 2;
 
 var canvasEl = document.getElementById('canvas');
 var ctx = canvasEl.getContext('2d');
 var startGameButtonEl = document.getElementById('start-button');
 var pieces = [];
 
-function Piece(source, ind){
-  // this.img = document.createElement('img');
-  // this.img.setAttribute('src', source);
-  this.img = new Image(100, 100);
+function Piece(source){
+  this.img = new Image();
   this.img.src = source;
   this.img.setAttribute('style', 'border: 1px solid #000000;');
-  this.x = source.slice(14, 15);
-  this.y = source.slice(16, 17);
-  this.ind = ind;
-  // this.randx = randx;
-  // this.randy = randy;
+  this.yPieceIndex = source.slice(14, 15);
+  this.xPieceIndex = source.slice(16, 17);
 };
 
-function populatePieces(){
-  var locations = [];
-  for (var i = 0; i < x; i++) {
-    pieces[i] = [];
-    for (var j = 0; j < y; j++) {
-      myLocation = checkLocation(locations);
-      pieces[i][j] = new Piece('img/easy/logo-' + loc.yy + '-' + loc.xx + '.png');
-      locations.push(myLocation);
-    }
-  }
+function ArrayLocation(yLocationIndex, xLocationIndex){
+  this.yLocationIndex = yLocationIndex;
+  this.xLocationIndex = xLocationIndex;
 }
 
-var loc;
+function generateRandLocation(minY, maxY, minX, maxX){
+  var randY = Math.round(Math.random(minY, maxY));
+  var randX = Math.round(Math.random(minX, maxX));
+  return new ArrayLocation(randY, randX);
+}
 
-function checkLocation(locations){
-  generateRandLocation(0, x, 0, y);
+function generateNewLocation(locationsUsed){
+  var currentLocation = generateRandLocation(0, yDimension, 0, xDimension);
   var passed = true;
-  for (var i = 0; i < locations.length; i++) {
-    if(loc === locations[i]) {
+  for (var i = 0; i < locationsUsed.length; i++) {
+    if(currentLocation.yLocationIndex === locationsUsed[i].yLocationIndex && currentLocation.xLocationIndex === locationsUsed[i].xLocationIndex) {
       passed = false;
-      console.log(passed, '= PASSED');
     }
   }
   if(passed === false){
-    return checkLocation(locations);
-    console.log(checkLocation(locations), 'checkLocation(locations)');
+    return generateNewLocation(locationsUsed);
   } else {
-    return loc;
+    return currentLocation;
   }
 }
 
-function ArrayLocation(yy, xx){
-  this.yy = yy;
-  this.xx = xx;
-}
-
-function generateRandLocation(minX, maxX, minY, maxY){
-  var rand1 = Math.round(Math.random(minX, maxX));
-  var rand2 = Math.round(Math.random(minY, maxY));
-  console.log(rand1, 'rand 1');
-  console.log(rand2, 'rand 2');
-  loc = new ArrayLocation(rand1, rand2);
+function populatePieces(){
+  var locationsUsed = [];
+  for (var i = 0; i < yDimension; i++) { // i = y index
+    pieces[i] = [];
+    for (var j = 0; j < xDimension; j++) { // j = x index
+      var myLocation = generateNewLocation(locationsUsed);
+      console.log('Piece ' + i + '-' + j + ' Y: ' + myLocation.yLocationIndex + ' X: ' + myLocation.xLocationIndex);
+      pieces[i][j] = new Piece('img/easy/logo-' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex + '.png');
+      locationsUsed.push(myLocation);
+    }
+  }
 }
 
 function drawCanvas(){
-  for (var i = 0; i < pieces.length; i++) {
-    for (var j = 0; j < pieces[i].length; j++) {
-      ctx.drawImage(pieces[i][j].img, i * (canvas.width / x), j * (canvas.height / y), canvas.width / x, canvas.height / y);
-      ctx.strokeRect(i * (canvas.width / x), j * (canvas.height / y), canvas.width / x, canvas.height / y);
+  for (var i = 0; i < pieces.length; i++) { // i = y index
+    for (var j = 0; j < pieces[i].length; j++) { // j = x index
+      ctx.drawImage(pieces[i][j].img, j * (canvas.width / xDimension), i * (canvas.height / yDimension), canvas.width / xDimension, canvas.height / yDimension);
+      ctx.strokeRect(j * (canvas.width / xDimension), i * (canvas.height / yDimension), canvas.width / xDimension, canvas.height / yDimension);
     }
   }
   console.log('pieces: ', pieces);
 }
 
 function startButtonClick() {
-  var playerNameInputEl = document.getElementById('player-name');
   populatePieces();
   drawCanvas();
+  console.log(checkFinished());
+}
+
+function checkFinished(){
+  var isFinished = true;
+  for (var i = 0; i < pieces.length; i++) { // i = y index
+    for (var j = 0; j < pieces[i].length; j++) { // j = x index
+      if(parseInt(pieces[i][j].yPieceIndex) === i && parseInt(pieces[i][j].xPieceIndex) === j){
+        continue;
+      }
+      else{
+        isFinished = false;
+      }
+    }
+  }
+  return isFinished;
 }
 
 startGameButtonEl.addEventListener('click', startButtonClick);
