@@ -17,6 +17,7 @@ var timerOn = false;
 var stopTime = 0;
 var currentTime;
 var startingTime;
+var imageSelected;
 
 // DOM variables
 var gameForm = document.getElementById('gameForm');
@@ -51,7 +52,7 @@ function generateNewLocation(locationsUsed, yIndex, xIndex){
       return currentLocation;
     }
   }
-  console.log('failed: (' + yIndex + '-' + xIndex + '): ' + currentLocation.yLocationIndex + '-' + currentLocation.xLocationIndex);
+  // console.log('failed: (' + yIndex + '-' + xIndex + '): ' + currentLocation.yLocationIndex + '-' + currentLocation.xLocationIndex);
   return generateNewLocation(locationsUsed, yIndex, xIndex);
 }
 function checkUsedLocations(currentLocation, locationsUsed){
@@ -78,7 +79,7 @@ function populatePieces(){
     pieces[i] = [];
     for (var j = 0; j < xDimension; j++) { // j = x index
       var myLocation = generateNewLocation(locationsUsed, i, j);
-      console.log('Piece: (' + i + '-' + j + ') = ' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex);
+      // console.log('Piece: (' + i + '-' + j + ') = ' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex);
       pieces[i][j] = new Piece('img/easy/logo-' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex + '.png');
       locationsUsed.push(myLocation);
     }
@@ -87,11 +88,13 @@ function populatePieces(){
 function drawCanvas(){
   for (var i = 0; i < pieces.length; i++) { // i = y index
     for (var j = 0; j < pieces[i].length; j++) { // j = x index
-      ctx.drawImage(pieces[i][j].img, j * (canvas.width / xDimension), i * (canvas.height / yDimension), canvas.width / xDimension, canvas.height / yDimension);
-      ctx.strokeRect(j * (canvas.width / xDimension), i * (canvas.height / yDimension), canvas.width / xDimension, canvas.height / yDimension);
+      if (pieces[i][j]){
+        ctx.drawImage(pieces[i][j].img, j * (canvas.width / xDimension), i * (canvas.height / yDimension), canvas.width / xDimension, canvas.height / yDimension);
+        ctx.strokeRect(j * (canvas.width / xDimension), i * (canvas.height / yDimension), canvas.width / xDimension, canvas.height / yDimension);
+      }
     }
   }
-  console.log('pieces: ', pieces);
+  // console.log('pieces: ', pieces);
 }
 function checkFinished(){
   var isFinished = true;
@@ -112,7 +115,7 @@ function getMousePosition(event){
   mouse.y = event.layerY;
 }
 function swapPieces(currentPiece, currentDropPiece){
-  console.log('swapPieces');
+  // console.log('swapPieces');
   var temp = currentPiece;
   pieces[currentPieceLocation.yLocationIndex][currentPieceLocation.xLocationIndex] = currentDropPiece;
   pieces[currentDropPieceLocation.yLocationIndex][currentDropPieceLocation.xLocationIndex] = temp;
@@ -128,7 +131,7 @@ function handleStartButtonClick(event) {
   populatePieces();
   drawCanvas();
   event.target.playerName.value = null;
-  console.log(checkFinished());
+  // console.log(checkFinished());
   startingTime = Date.now();
 }
 function handleCanvasMousedown(event){
@@ -136,24 +139,44 @@ function handleCanvasMousedown(event){
   var xValue = mouse.x / (canvas.width / xDimension);
   var yValue = mouse.y / (canvas.height / yDimension);
   currentPieceLocation = new ArrayLocation(Math.floor(yValue), Math.floor(xValue));
-  console.log(currentPiece);
+  // console.log(currentPiece);
   currentPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
+  pieces[Math.floor(yValue)][Math.floor(xValue)] = null;
+  imageSelected = currentPiece.img;
 }
+
+function handleCanvasMousemove(event){
+  if (imageSelected) {
+    console.log(imageSelected.src);
+    var xPosition = 0;
+    var yPosition = 0;
+    mouse.x = event.layerX;
+    mouse.y = event.layerY;
+    var draggedImage = document.createElement('img');
+    draggedImage.setAttribute('src', imageSelected.src);
+    xPosition += (draggedImage.offsetLeft - draggedImage.scrollLeft + draggedImage.layerLeft);
+    yPosition += (draggedImage.offsetTop - draggedImage.scrollTop + draggedImage.layerTop);
+    draggedImage = draggedImage.offsetParent;
+    drawCanvas();
+  }
+}
+
 function handleCanvasMouseup(event){
   getMousePosition(event);
   var xValue = mouse.x / (canvas.width / xDimension);
   var yValue = mouse.y / (canvas.height / yDimension);
   currentDropPieceLocation = new ArrayLocation(Math.floor(yValue), Math.floor(xValue));
-  console.log(currentDropPiece);
+  // console.log(currentDropPiece);
   currentDropPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
   swapPieces(currentPiece, currentDropPiece);
   if(checkFinished()){
-    console.log('You won!');
+    // console.log('You won!');
     gameTimer(startingTime);
     timer = ' | ' + timeInMMSS(stopTime);
     var timerStringified = JSON.stringify(timer);
     localStorage.setItem('timerLSEl', timerStringified);
   }
+  imageSelected = null;
 }
 
 
@@ -186,6 +209,7 @@ function timeInMMSS(rawTime){
 }
 
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
+canvasEl.addEventListener('mousemove', handleCanvasMousemove);
 canvasEl.addEventListener('mouseup', handleCanvasMouseup);
 
 gameForm.addEventListener('submit', handleStartButtonClick);
