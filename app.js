@@ -30,6 +30,7 @@ function Piece(source){
   this.yPieceIndex = source.slice(14, 15);
   this.xPieceIndex = source.slice(16, 17);
 };
+
 function ArrayLocation(yLocationIndex, xLocationIndex){
   this.yLocationIndex = yLocationIndex;
   this.xLocationIndex = xLocationIndex;
@@ -41,6 +42,7 @@ function generateRandLocation(minY, maxY, minX, maxX){
   var randX = Math.round(Math.random(minX, maxX));
   return new ArrayLocation(randY, randX);
 }
+
 function generateNewLocation(locationsUsed, yIndex, xIndex){
   var currentLocation = generateRandLocation(0, yDimension, 0, xDimension);
   if(checkUsedLocations(currentLocation, locationsUsed)){
@@ -51,6 +53,7 @@ function generateNewLocation(locationsUsed, yIndex, xIndex){
   console.log('failed: (' + yIndex + '-' + xIndex + '): ' + currentLocation.yLocationIndex + '-' + currentLocation.xLocationIndex);
   return generateNewLocation(locationsUsed, yIndex, xIndex);
 }
+
 function checkUsedLocations(currentLocation, locationsUsed){
   for (var i = 0; i < locationsUsed.length; i++) {
     if(currentLocation.yLocationIndex === locationsUsed[i].yLocationIndex && currentLocation.xLocationIndex === locationsUsed[i].xLocationIndex) {
@@ -59,6 +62,7 @@ function checkUsedLocations(currentLocation, locationsUsed){
   }
   return true;
 }
+
 function checkCurrentLocation(currentLocation, yIndex, xIndex){
   if(yIndex === yDimension - 1 && xIndex === xDimension - 1){ // this statement is necessary to avoid last position having no valid options
     return true;
@@ -68,6 +72,7 @@ function checkCurrentLocation(currentLocation, yIndex, xIndex){
   }
   else return true;
 }
+
 function populatePieces(){
   var locationsUsed = [];
   for (var i = 0; i < yDimension; i++) { // i = y index
@@ -80,6 +85,7 @@ function populatePieces(){
     }
   }
 }
+
 function drawCanvas(){
   for (var i = 0; i < pieces.length; i++) { // i = y index
     for (var j = 0; j < pieces[i].length; j++) { // j = x index
@@ -89,6 +95,7 @@ function drawCanvas(){
   }
   console.log('pieces: ', pieces);
 }
+
 function checkFinished(){
   var isFinished = true;
   for (var i = 0; i < pieces.length; i++) { // i = y index
@@ -219,8 +226,6 @@ var GameTimer = function(elem, options){
 
 };
 
-
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
 canvasEl.addEventListener('mouseup', handleCanvasMouseup);
-
 gameForm.addEventListener('submit', handleStartButtonClick);
