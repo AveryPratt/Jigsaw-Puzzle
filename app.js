@@ -13,6 +13,10 @@ var currentDropPieceLocation;
 var xDimension = 2;
 var yDimension = 2;
 var pieces = [];
+var timerOn = false;
+var stopTime = 0;
+var currentTime;
+var startingTime;
 
 // DOM variables
 var gameForm = document.getElementById('gameForm');
@@ -121,12 +125,11 @@ function handleStartButtonClick(event) {
   playerNameInputEl = event.target.playerName.value;
   var playerNameStringified = JSON.stringify(playerNameInputEl);
   localStorage.setItem('playerNameLSEl', playerNameStringified);
-  var timerStringified = JSON.stringify(timer);
-  localStorage.setItem('timerLSEl', timerStringified);
   populatePieces();
   drawCanvas();
   event.target.playerName.value = null;
   console.log(checkFinished());
+  startingTime = Date.now();
 }
 function handleCanvasMousedown(event){
   getMousePosition(event);
@@ -146,6 +149,39 @@ function handleCanvasMouseup(event){
   swapPieces(currentPiece, currentDropPiece);
   if(checkFinished()){
     console.log('You won!');
+    gameTimer(startingTime);
+    timer = ' | ' + timeInMMSS(stopTime);
+    var timerStringified = JSON.stringify(timer);
+    localStorage.setItem('timerLSEl', timerStringified);
+  }
+}
+
+
+function gameTimer(startingTime){
+  currentTime = Date.now();
+  var timeDifference = currentTime - startingTime;
+
+  if (timerOn === false){
+    timeDifference = timeDifference + stopTime;
+  }
+
+  if (timerOn === true){
+    timer.value = timeInMMSS(timeDifference);
+    var refresh = setTimeout('gameTimer()', 100);
+  } else {
+    window.clearTimeout(refresh);
+    stopTime = timeDifference;
+  }
+}
+
+function timeInMMSS(rawTime){
+  var secs = Math.floor(rawTime / 1000);
+  var mins = Math.floor(rawTime / 60000);
+  secs = secs - 60 * mins;
+  if (mins === 0){
+    return secs + ' seconds';
+  } else {
+    return mins + ' minutes and ' + secs + ' seconds';
   }
 }
 
