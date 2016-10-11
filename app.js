@@ -13,14 +13,11 @@ var currentDropPieceLocation;
 var xDimension = 2;
 var yDimension = 2;
 var pieces = [];
-var timerOn = false;
-var stopTime = 0;
-var currentTime;
-var startingTime;
+var timerStringified;
+var elems = document.getElementById('nav');
 
 // DOM variables
 var gameForm = document.getElementById('gameForm');
-var startGameButtonEl = document.getElementById('start-button');
 var playerNameInputEl = document.getElementById('playerName');
 var canvasEl = document.getElementById('canvas');
 var ctx = canvasEl.getContext('2d');
@@ -67,7 +64,6 @@ function checkCurrentLocation(currentLocation, yIndex, xIndex){
     return true;
   }
   if(currentLocation.xLocationIndex === xIndex && currentLocation.yLocationIndex === yIndex){
-    // console.log('same location: ' + yIndex + '-' + xIndex + ' ' + currentLocation.yLocationIndex + '-' + currentLocation.xLocationIndex);
     return false;
   }
   else return true;
@@ -107,10 +103,12 @@ function checkFinished(){
   }
   return isFinished;
 }
+
 function getMousePosition(event){
   mouse.x = event.layerX;
   mouse.y = event.layerY;
 }
+
 function swapPieces(currentPiece, currentDropPiece){
   console.log('swapPieces');
   var temp = currentPiece;
@@ -128,9 +126,11 @@ function handleStartButtonClick(event) {
   populatePieces();
   drawCanvas();
   event.target.playerName.value = null;
+  elems = new GameTimer(elems);
+  elems.start();
   console.log(checkFinished());
-  startingTime = Date.now();
 }
+
 function handleCanvasMousedown(event){
   getMousePosition(event);
   var xValue = mouse.x / (canvas.width / xDimension);
@@ -139,6 +139,7 @@ function handleCanvasMousedown(event){
   console.log(currentPiece);
   currentPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
 }
+
 function handleCanvasMouseup(event){
   getMousePosition(event);
   var xValue = mouse.x / (canvas.width / xDimension);
@@ -149,41 +150,75 @@ function handleCanvasMouseup(event){
   swapPieces(currentPiece, currentDropPiece);
   if(checkFinished()){
     console.log('You won!');
-    gameTimer(startingTime);
-    timer = ' | ' + timeInMMSS(stopTime);
-    var timerStringified = JSON.stringify(timer);
+    elems.stop();
+    timer = document.getElementById('timerDOMEL').textContent;
+    timerStringified = JSON.stringify(timer);
     localStorage.setItem('timerLSEl', timerStringified);
   }
 }
 
+//adapted from http://jsbin.com/xayezotalo/edit?html,js,output
+var GameTimer = function(elem, options){
+  var timer = createTimer(),
+    offset,
+    clock,
+    interval;
 
-function gameTimer(startingTime){
-  currentTime = Date.now();
-  var timeDifference = currentTime - startingTime;
+  options = options || {};
+  options.delay = options.delay || 1;
 
-  if (timerOn === false){
-    timeDifference = timeDifference + stopTime;
+  elem.appendChild(timer);
+
+  reset();
+
+  function createTimer(){
+    var timerDOMELJS = document.createElement('span');
+    timerDOMELJS.setAttribute('id', 'timerDOMEL');
+    return timerDOMELJS;
   }
 
-  if (timerOn === true){
-    timer.value = timeInMMSS(timeDifference);
-    var refresh = setTimeout('gameTimer()', 100);
-  } else {
-    window.clearTimeout(refresh);
-    stopTime = timeDifference;
+  function start() {
+    if (!interval) {
+      offset = Date.now();
+      interval = setInterval(update, options.delay);
+    }
   }
-}
 
-function timeInMMSS(rawTime){
-  var secs = Math.floor(rawTime / 1000);
-  var mins = Math.floor(rawTime / 60000);
-  secs = secs - 60 * mins;
-  if (mins === 0){
-    return secs + ' seconds';
-  } else {
-    return mins + ' minutes and ' + secs + ' seconds';
+  function stop() {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
   }
-}
+
+  function reset() {
+    clock = 0;
+    render(0);
+  }
+
+  function update() {
+    clock += delta();
+    render();
+  }
+
+  function render() {
+    timer.innerHTML = clock / 1000;
+  }
+
+  function delta() {
+    var now = Date.now(),
+      d = now - offset;
+
+    offset = now;
+    return d;
+  }
+
+  this.start = start;
+  this.stop = stop;
+  this.reset = reset;
+
+};
+
 
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
 canvasEl.addEventListener('mouseup', handleCanvasMouseup);
