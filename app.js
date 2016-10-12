@@ -18,6 +18,7 @@ var stopTime = 0;
 var currentTime;
 var startingTime;
 var imageSelected;
+var style = document.createElement('style');
 
 // DOM variables
 var gameForm = document.getElementById('gameForm');
@@ -88,10 +89,8 @@ function populatePieces(){
 function drawCanvas(){
   for (var i = 0; i < pieces.length; i++) { // i = y index
     for (var j = 0; j < pieces[i].length; j++) { // j = x index
-      if (pieces[i][j]){
-        ctx.drawImage(pieces[i][j].img, j * (canvas.width / xDimension), i * (canvas.height / yDimension), canvas.width / xDimension, canvas.height / yDimension);
-        ctx.strokeRect(j * (canvas.width / xDimension), i * (canvas.height / yDimension), canvas.width / xDimension, canvas.height / yDimension);
-      }
+      ctx.drawImage(pieces[i][j].img, j * (canvas.width / xDimension), i * (canvas.height / yDimension), canvas.width / xDimension, canvas.height / yDimension);
+      ctx.strokeRect(j * (canvas.width / xDimension), i * (canvas.height / yDimension), canvas.width / xDimension, canvas.height / yDimension);
     }
   }
   // console.log('pieces: ', pieces);
@@ -141,8 +140,10 @@ function handleCanvasMousedown(event){
   currentPieceLocation = new ArrayLocation(Math.floor(yValue), Math.floor(xValue));
   // console.log(currentPiece);
   currentPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
-  pieces[Math.floor(yValue)][Math.floor(xValue)] = null;
   imageSelected = currentPiece.img;
+  style.type = 'text/css';
+  style.innerHTML = '* {cursor: url(' + imageSelected.src + ') 64 64, auto;}';
+  document.getElementsByTagName('head')[0].appendChild(style);
 }
 
 function handleCanvasMousemove(event){
@@ -150,14 +151,8 @@ function handleCanvasMousemove(event){
     console.log(imageSelected.src);
     var xPosition = 0;
     var yPosition = 0;
-    mouse.x = event.layerX;
-    mouse.y = event.layerY;
-    var draggedImage = document.createElement('img');
-    draggedImage.setAttribute('src', imageSelected.src);
-    xPosition += (draggedImage.offsetLeft - draggedImage.scrollLeft + draggedImage.layerLeft);
-    yPosition += (draggedImage.offsetTop - draggedImage.scrollTop + draggedImage.layerTop);
-    draggedImage = draggedImage.offsetParent;
-    drawCanvas();
+    xPosition = event.clientX;
+    yPosition = event.clientY;
   }
 }
 
@@ -177,6 +172,9 @@ function handleCanvasMouseup(event){
     localStorage.setItem('timerLSEl', timerStringified);
   }
   imageSelected = null;
+  style.type = 'text/css';
+  style.innerHTML = '* {cursor: initial;}';
+  document.getElementsByTagName('head')[0].appendChild(style);
 }
 
 
@@ -209,7 +207,7 @@ function timeInMMSS(rawTime){
 }
 
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
-canvasEl.addEventListener('mousemove', handleCanvasMousemove);
+window.addEventListener('mousemove', handleCanvasMousemove);
 canvasEl.addEventListener('mouseup', handleCanvasMouseup);
 
 gameForm.addEventListener('submit', handleStartButtonClick);
