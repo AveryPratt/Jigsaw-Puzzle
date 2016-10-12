@@ -84,7 +84,6 @@ var GameTimer = function(elem, options){
   this.start = start;
   this.stop = stop;
   this.reset = reset;
-
 };
 
 //check localStorage
@@ -97,6 +96,12 @@ if(localStorage.getItem('gameArrayEl')){
   console.log('nothing found in localStorage');
 };
 
+//check sessionStorage
+if(sessionStorage.getItem('reloaded') === 'true'){
+  var savedName = localStorage.getItem('saveNameLS')
+  document.getElementById('playerName').value = JSON.parse(savedName);
+  sessionStorage.setItem('reloaded', false);
+}
 // constructors
 function Piece(source){
   this.img = new Image();
@@ -246,17 +251,13 @@ function endGame(){
   console.log('You won!');
   timer = document.getElementById('timerDOMEL').textContent;
   var timerStringified = JSON.stringify(timer);
-  // timerStringified = JSON.stringify(timer);
   gameArray.push(timer);
   localStorage.setItem('timerLSEl', timerStringified);
   var gameArrayStringified = JSON.stringify(gameArray);
   localStorage.setItem('gameArrayEl', gameArrayStringified);
-  // timer = document.getElementById('timerDOMEL').textContent;
-
   var clearGame = document.getElementById('gameForm');
   clearGame.textContent = null;
   clearGame.textContent = 'Congratulations ' + playerNameInputEl + ', you won! It took you ' + timer + ' seconds to complete!';
-  // document.getElementById('timerDOMEL').textContent = '';
   var nameReplayLabelEl = document.createElement('label');
   nameReplayLabelEl.setAttribute('for', 'name');
   nameReplayLabelEl.textContent = ' Name: ';
@@ -266,20 +267,19 @@ function endGame(){
   nameReplayInputEl.setAttribute('type', 'text');
   nameReplayInputEl.setAttribute('id', 'playerName');
   nameReplayInputEl.value = playerNameInputEl;
+  var saveName = JSON.stringify(playerNameInputEl);
+  localStorage.setItem('saveNameLS', saveName);
   clearGame.appendChild(nameReplayInputEl);
   var playAgainBtn = document.createElement('button');
-  // playAgainBtn.setAttribute('id', 'start-button');
   playAgainBtn.textContent = 'Play Again?';
   var playAgainATag = document.createElement('a');
   gameForm.removeEventListener('submit', handleStartButtonClick);
   playAgainATag.setAttribute('href', 'index.html');
   clearGame.appendChild(playAgainATag);
   playAgainATag.appendChild(playAgainBtn);
-  // canvasEl.addEventListener('mousedown', handleCanvasMousedown);
-  // window.addEventListener('mousemove', handleCanvasMousemove);
-  // window.addEventListener('mouseup', handleCanvasMouseup);
-  // gameForm.addEventListener('submit', handleStartButtonClick);
+  sessionStorage.setItem('reloaded', true);
 }
+
 
 // event handlers
 function handleStartButtonClick(event) {
@@ -291,13 +291,12 @@ function handleStartButtonClick(event) {
   populatePieces();
   console.log('min number of moves: ' + findMinimumMoves());
   drawCanvas();
-  event.target.playerName.value = null;
-  // console.log(checkFinished());
   elems = document.getElementById('nav');
   elems = new GameTimer(elems);
   elems.reset();
   elems.start();
   console.log(checkFinished());
+  gameForm.removeEventListener('submit', handleStartButtonClick);
 }
 
 function handleCanvasMousedown(event){
@@ -348,6 +347,6 @@ function handleCanvasMouseup(event){
   document.getElementsByTagName('head')[0].appendChild(style);
 }
 
+gameForm.addEventListener('submit', handleStartButtonClick);
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
 window.addEventListener('mouseup', handleCanvasMouseup);
-gameForm.addEventListener('submit', handleStartButtonClick);
