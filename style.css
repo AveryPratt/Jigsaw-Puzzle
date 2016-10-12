@@ -1,3 +1,9 @@
+body {
+  width: 100%;
+  height: 100%;
+}
+
+
 form {
   margin-top: 15%;
   margin-left: 35%;
@@ -11,12 +17,12 @@ fieldset {
   border-radius: 25px;
 }
 
+
 #canvas {
-  position: absolute;
-  left: 39%;
-  top: 37%;
-  margin-top: 20%;
+position: relative;
+
 }
+
 
 section {
   z-index: 1;
@@ -42,8 +48,9 @@ button {
   margin: auto;
   clear: both;
   position: relative;
-  top: 60px;
-  left: 50%;
+  margin-top: 20%;
+  left: 14%;
+  margin-bottom: 10%;
   margin-left: -75px;
   bottom: 10%;
   border: 5px solid #3c3a3a;
