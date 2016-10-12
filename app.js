@@ -244,32 +244,41 @@ function handleCanvasMousemove(event){
 }
 
 function handleCanvasMouseup(event){
-  getMousePosition(event);
-  var xValue = mouse.x / (canvas.width / xDimension);
-  var yValue = mouse.y / (canvas.height / yDimension);
-  currentDropPieceLocation = new ArrayLocation(Math.floor(yValue), Math.floor(xValue));
-  // console.log(currentDropPiece);
-  currentDropPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
-  swapPieces(currentPiece, currentDropPiece);
-  imageSelected = null;
+  if(event.target === canvasEl){
+    getMousePosition(event);
+    var xValue = mouse.x / (canvas.width / xDimension);
+    var yValue = mouse.y / (canvas.height / yDimension);
+    currentDropPieceLocation = new ArrayLocation(Math.floor(yValue), Math.floor(xValue));
+    // console.log(currentDropPiece);
+    currentDropPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
+    swapPieces(currentPiece, currentDropPiece);
+    imageSelected = null;
+    if(checkFinished()){
+      // console.log('You won!');
+      elems.stop();
+      var timerStringified = JSON.stringify(timer);
+      console.log('You won!');
+      timer = document.getElementById('timerDOMEL').textContent;
+      gameArray.push(timer);
+      timerStringified = JSON.stringify(timer);
+      localStorage.setItem('timerLSEl', timerStringified);
+      var gameArrayStringified = JSON.stringify(gameArray);
+      localStorage.setItem('gameArrayEl', gameArrayStringified);
+    }
+  }
+  else {
+    console.log('mouse up over window');
+  }
+  currentPiece = null;
+  currentDropPiece = null;
+  currentPieceLocation = null;
+  currentDropPieceLocation = null;
   style.type = 'text/css';
   style.innerHTML = '* {cursor: initial;}';
   document.getElementsByTagName('head')[0].appendChild(style);
-  if(checkFinished()){
-    // console.log('You won!');
-    elems.stop();
-    var timerStringified = JSON.stringify(timer);
-    console.log('You won!');
-    timer = document.getElementById('timerDOMEL').textContent;
-    gameArray.push(timer);
-    timerStringified = JSON.stringify(timer);
-    localStorage.setItem('timerLSEl', timerStringified);
-    var gameArrayStringified = JSON.stringify(gameArray);
-    localStorage.setItem('gameArrayEl', gameArrayStringified);
-  }
 }
 
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
 window.addEventListener('mousemove', handleCanvasMousemove);
-canvasEl.addEventListener('mouseup', handleCanvasMouseup);
+window.addEventListener('mouseup', handleCanvasMouseup);
 gameForm.addEventListener('submit', handleStartButtonClick);
