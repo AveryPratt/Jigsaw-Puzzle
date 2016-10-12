@@ -1,0 +1,55 @@
+form {
+  margin-top: 15%;
+  margin-left: 35%;
+  width: 29%;
+  text-align: center;
+  outline: none;
+}
+
+fieldset {
+  border: none;
+  border-radius: 25px;
+}
+
+#canvas {
+  position: absolute;
+  left: 39%;
+  top: 37%;
+}
+
+section {
+  z-index: 1;
+  width: 50%;
+  min-width: 200px;
+  min-height: 200px;
+  margin: auto;
+  background-color: #323232;
+  color: white;
+  border-radius: 25px;
+  position: absolute;
+  top: 150px;
+  left: 50%;
+  margin-left: -25%;
+}
+
+button {
+  width: 150px;
+  margin: auto;
+  clear: both;
+  position: relative;
+  top: 60px;
+  left: 50%;
+  margin-left: -75px;
+  bottom: 10%;
+}
+
+.scoreList {
+  min-height: 200px;
+  font-size: 2em;
+  font-family: sans-serif;
+  margin-left: 5%;
+}
+
+canvas {
+
+}

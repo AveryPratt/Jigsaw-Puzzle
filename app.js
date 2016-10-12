@@ -29,6 +29,68 @@ var playerNameInputEl = document.getElementById('playerName');
 var canvasEl = document.getElementById('canvas');
 var ctx = canvasEl.getContext('2d');
 
+//adapted from http://jsbin.com/xayezotalo/edit?html,js,output
+var GameTimer = function(elem, options){
+  var timer = createTimer(),
+    offset,
+    clock,
+    interval;
+
+  options = options || {};
+  options.delay = options.delay || 1;
+
+  elem.appendChild(timer);
+
+  reset();
+
+  function createTimer(){
+    var timerDOMELJS = document.createElement('span');
+    timerDOMELJS.setAttribute('id', 'timerDOMEL');
+    return timerDOMELJS;
+  }
+
+  function start() {
+    if (!interval) {
+      offset = Date.now();
+      interval = setInterval(update, options.delay);
+    }
+  }
+
+  function stop() {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
+  }
+
+  function reset() {
+    clock = 0;
+    render(0);
+  }
+
+  function update() {
+    clock += delta();
+    render();
+  }
+
+  function render() {
+    timer.innerHTML = clock / 1000;
+  }
+
+  function delta() {
+    var now = Date.now(),
+      d = now - offset;
+
+    offset = now;
+    return d;
+  }
+
+  this.start = start;
+  this.stop = stop;
+  this.reset = reset;
+
+};
+
 //check localStorage
 if(localStorage.getItem('gameArrayEl')){
   var loadOldGames = localStorage.getItem('gameArrayEl');
@@ -189,6 +251,10 @@ function handleCanvasMouseup(event){
   // console.log(currentDropPiece);
   currentDropPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
   swapPieces(currentPiece, currentDropPiece);
+  imageSelected = null;
+  style.type = 'text/css';
+  style.innerHTML = '* {cursor: initial;}';
+  document.getElementsByTagName('head')[0].appendChild(style);
   if(checkFinished()){
     // console.log('You won!');
     gameTimer(startingTime);
@@ -203,73 +269,7 @@ function handleCanvasMouseup(event){
     var gameArrayStringified = JSON.stringify(gameArray);
     localStorage.setItem('gameArrayEl', gameArrayStringified);
   }
-  imageSelected = null;
-  style.type = 'text/css';
-  style.innerHTML = '* {cursor: initial;}';
-  document.getElementsByTagName('head')[0].appendChild(style);
 }
-
-//adapted from http://jsbin.com/xayezotalo/edit?html,js,output
-var GameTimer = function(elem, options){
-  var timer = createTimer(),
-    offset,
-    clock,
-    interval;
-
-  options = options || {};
-  options.delay = options.delay || 1;
-
-  elem.appendChild(timer);
-
-  reset();
-
-  function createTimer(){
-    var timerDOMELJS = document.createElement('span');
-    timerDOMELJS.setAttribute('id', 'timerDOMEL');
-    return timerDOMELJS;
-  }
-
-  function start() {
-    if (!interval) {
-      offset = Date.now();
-      interval = setInterval(update, options.delay);
-    }
-  }
-
-  function stop() {
-    if (interval) {
-      clearInterval(interval);
-      interval = null;
-    }
-  }
-
-  function reset() {
-    clock = 0;
-    render(0);
-  }
-
-  function update() {
-    clock += delta();
-    render();
-  }
-
-  function render() {
-    timer.innerHTML = clock / 1000;
-  }
-
-  function delta() {
-    var now = Date.now(),
-      d = now - offset;
-
-    offset = now;
-    return d;
-  }
-
-  this.start = start;
-  this.stop = stop;
-  this.reset = reset;
-
-};
 
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
 window.addEventListener('mousemove', handleCanvasMousemove);
