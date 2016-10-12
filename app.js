@@ -15,12 +15,23 @@ var yDimension = 2;
 var pieces = [];
 var timerStringified;
 var elems = document.getElementById('nav');
+var gameArray = [];
 
 // DOM variables
 var gameForm = document.getElementById('gameForm');
 var playerNameInputEl = document.getElementById('playerName');
 var canvasEl = document.getElementById('canvas');
 var ctx = canvasEl.getContext('2d');
+
+//check localStorage
+if(localStorage.getItem('gameArrayEl')){
+  var loadOldGames = localStorage.getItem('gameArrayEl');
+  var newGameArray = JSON.parse(loadOldGames);
+  console.log('newGameArray: ', newGameArray);
+  gameArray = newGameArray;
+} else {
+  console.log('nothing found in localStorage');
+};
 
 // constructors
 function Piece(source){
@@ -128,6 +139,7 @@ function swapPieces(currentPiece, currentDropPiece){
 function handleStartButtonClick(event) {
   event.preventDefault();
   playerNameInputEl = event.target.playerName.value;
+  gameArray.push(playerNameInputEl);
   var playerNameStringified = JSON.stringify(playerNameInputEl);
   localStorage.setItem('playerNameLSEl', playerNameStringified);
   populatePieces();
@@ -159,8 +171,11 @@ function handleCanvasMouseup(event){
     console.log('You won!');
     elems.stop();
     timer = document.getElementById('timerDOMEL').textContent;
+    gameArray.push(timer);
     timerStringified = JSON.stringify(timer);
     localStorage.setItem('timerLSEl', timerStringified);
+    var gameArrayStringified = JSON.stringify(gameArray);
+    localStorage.setItem('gameArrayEl', gameArrayStringified);
   }
 }
 
