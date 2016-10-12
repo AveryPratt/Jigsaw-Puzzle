@@ -21,12 +21,23 @@ var imageSelected;
 var style = document.createElement('style');
 var timerStringified;
 var elems = document.getElementById('nav');
+var gameArray = [];
 
 // DOM variables
 var gameForm = document.getElementById('gameForm');
 var playerNameInputEl = document.getElementById('playerName');
 var canvasEl = document.getElementById('canvas');
 var ctx = canvasEl.getContext('2d');
+
+//check localStorage
+if(localStorage.getItem('gameArrayEl')){
+  var loadOldGames = localStorage.getItem('gameArrayEl');
+  var newGameArray = JSON.parse(loadOldGames);
+  console.log('newGameArray: ', newGameArray);
+  gameArray = newGameArray;
+} else {
+  console.log('nothing found in localStorage');
+};
 
 // constructors
 function Piece(source){
@@ -36,6 +47,7 @@ function Piece(source){
   this.yPieceIndex = source.slice(14, 15);
   this.xPieceIndex = source.slice(16, 17);
 };
+
 function ArrayLocation(yLocationIndex, xLocationIndex){
   this.yLocationIndex = yLocationIndex;
   this.xLocationIndex = xLocationIndex;
@@ -47,6 +59,7 @@ function generateRandLocation(minY, maxY, minX, maxX){
   var randX = Math.round(Math.random(minX, maxX));
   return new ArrayLocation(randY, randX);
 }
+
 function generateNewLocation(locationsUsed, yIndex, xIndex){
   var currentLocation = generateRandLocation(0, yDimension, 0, xDimension);
   if(checkUsedLocations(currentLocation, locationsUsed)){
@@ -57,6 +70,7 @@ function generateNewLocation(locationsUsed, yIndex, xIndex){
   // console.log('failed: (' + yIndex + '-' + xIndex + '): ' + currentLocation.yLocationIndex + '-' + currentLocation.xLocationIndex);
   return generateNewLocation(locationsUsed, yIndex, xIndex);
 }
+
 function checkUsedLocations(currentLocation, locationsUsed){
   for (var i = 0; i < locationsUsed.length; i++) {
     if(currentLocation.yLocationIndex === locationsUsed[i].yLocationIndex && currentLocation.xLocationIndex === locationsUsed[i].xLocationIndex) {
@@ -65,6 +79,7 @@ function checkUsedLocations(currentLocation, locationsUsed){
   }
   return true;
 }
+
 function checkCurrentLocation(currentLocation, yIndex, xIndex){
   if(yIndex === yDimension - 1 && xIndex === xDimension - 1){ // this statement is necessary to avoid last position having no valid options
     return true;
@@ -74,6 +89,7 @@ function checkCurrentLocation(currentLocation, yIndex, xIndex){
   }
   else return true;
 }
+
 function populatePieces(){
   var locationsUsed = [];
   for (var i = 0; i < yDimension; i++) { // i = y index
@@ -86,6 +102,7 @@ function populatePieces(){
     }
   }
 }
+
 function drawCanvas(){
   for (var i = 0; i < pieces.length; i++) { // i = y index
     for (var j = 0; j < pieces[i].length; j++) { // j = x index
@@ -95,6 +112,7 @@ function drawCanvas(){
   }
   // console.log('pieces: ', pieces);
 }
+
 function checkFinished(){
   var isFinished = true;
   for (var i = 0; i < pieces.length; i++) { // i = y index
@@ -127,6 +145,7 @@ function swapPieces(currentPiece, currentDropPiece){
 function handleStartButtonClick(event) {
   event.preventDefault();
   playerNameInputEl = event.target.playerName.value;
+  gameArray.push(playerNameInputEl);
   var playerNameStringified = JSON.stringify(playerNameInputEl);
   localStorage.setItem('playerNameLSEl', playerNameStringified);
   populatePieces();
@@ -178,8 +197,11 @@ function handleCanvasMouseup(event){
     console.log('You won!');
     elems.stop();
     timer = document.getElementById('timerDOMEL').textContent;
+    gameArray.push(timer);
     timerStringified = JSON.stringify(timer);
     localStorage.setItem('timerLSEl', timerStringified);
+    var gameArrayStringified = JSON.stringify(gameArray);
+    localStorage.setItem('gameArrayEl', gameArrayStringified);
   }
   imageSelected = null;
   style.type = 'text/css';
@@ -249,9 +271,7 @@ var GameTimer = function(elem, options){
 
 };
 
-
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
 window.addEventListener('mousemove', handleCanvasMousemove);
 canvasEl.addEventListener('mouseup', handleCanvasMouseup);
-
 gameForm.addEventListener('submit', handleStartButtonClick);
