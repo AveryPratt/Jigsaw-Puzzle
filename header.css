@@ -18,10 +18,11 @@ header {
   display: inline;
   font: sans-serif;
   color: white;
-  width: 350px;
-  font-size: 19px;
+  /*width: 100%;*/
+  font-size: 100%;
   padding: 15px;
-  float: right;
+  position: fixed;
+    margin-left: 60%;
 }
 
 #nav li {
@@ -39,10 +40,11 @@ header {
   background-color: #3c3a3a;
   transition: background-color 350ms ease;
   border-radius: 10px;
+
 }
 
 #title {
-  font-size: 30pt;
+  font-size: 220%;
   position: fixed;
   top: -1%;
   left: 4%;
