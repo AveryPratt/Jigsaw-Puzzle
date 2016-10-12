@@ -203,6 +203,48 @@ function swapPieces(currentPiece, currentDropPiece){
   drawCanvas();
 }
 
+function findMinimumMoves(){
+  var areas = [];
+  for (var i = 0; i < pieces.length; i++) { // i = y index
+    for (var j = 0; j < pieces[i].length; j++) { // j = x index
+      if(checkLocationsInAreas(areas, pieces[i][j]) === false){
+        var currentArea = generateArea([], pieces[i][j]);
+        if(currentArea[0] === null){
+          areas.push(currentArea);
+        }
+      }
+    }
+  }
+  return xDimension * yDimension - areas.length;
+}
+
+function checkLocationsInAreas(areas, piece){
+  for (var i = 0; i < areas.length; i++) {
+    for (var j = 0; j < array.length; j++) {
+      if(areas[i][j].xLocationIndex === piece.xPieceIndex && areas[i][j].yLocationsIndex === piece.yPieceIndex){
+        return true;
+        continue;
+      }
+    }
+  }
+  return false;
+}
+
+function generateArea(pieceArr, piece, firstPiece){
+  pieceArr.push(piece);
+  if(firstPiece === undefined){
+    // if first call
+    firstPiece = piece;
+  } else if (firstPiece.yPieceIndex === piece.yPieceIndex && piece.xPieceIndex === piece.xPieceIndex){
+    // if solved
+    return pieceArr;
+  } else {
+    // gets new piece at old piece's target location
+    var newPiece = pieces[piece.yPieceIndex][piece.xPieceIndex];
+    return generateArea(firstPiece, newPiece, pieceArr);
+  }
+}
+
 // event handlers
 function handleStartButtonClick(event) {
   event.preventDefault();
@@ -211,6 +253,7 @@ function handleStartButtonClick(event) {
   var playerNameStringified = JSON.stringify(playerNameInputEl);
   localStorage.setItem('playerNameLSEl', playerNameStringified);
   populatePieces();
+  console.log('min number of moves: ' + findMinimumMoves());
   drawCanvas();
   event.target.playerName.value = null;
   // console.log(checkFinished());
@@ -231,16 +274,6 @@ function handleCanvasMousedown(event){
   style.type = 'text/css';
   style.innerHTML = '* {cursor: url(' + imageSelected.src + ') 64 64, auto;}';
   document.getElementsByTagName('head')[0].appendChild(style);
-}
-
-function handleCanvasMousemove(event){
-  if (imageSelected) {
-    console.log(imageSelected.src);
-    var xPosition = 0;
-    var yPosition = 0;
-    xPosition = event.clientX;
-    yPosition = event.clientY;
-  }
 }
 
 function handleCanvasMouseup(event){
@@ -279,6 +312,5 @@ function handleCanvasMouseup(event){
 }
 
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
-window.addEventListener('mousemove', handleCanvasMousemove);
 window.addEventListener('mouseup', handleCanvasMouseup);
 gameForm.addEventListener('submit', handleStartButtonClick);
