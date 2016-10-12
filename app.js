@@ -361,7 +361,7 @@ function handleCanvasMouseup(event) {
     currentDropPieceLocation = new ArrayLocation(Math.floor(yValue), Math.floor(xValue));
     // console.log(currentDropPiece);
     currentDropPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
-  if(currentDropPiece.xPieceIndex === currentPiece.xPieceIndex && currentDropPiece.yPieceIndex === currentPiece.yPieceIndex)  {
+  if(currentDropPiece.xPieceIndex !== currentPiece.xPieceIndex || currentDropPiece.yPieceIndex !== currentPiece.yPieceIndex)  {
     swapPieces(currentPiece, currentDropPiece);
   }
     imageSelected = null;
