@@ -13,17 +13,13 @@ var currentDropPieceLocation;
 var xDimension = 2;
 var yDimension = 2;
 var pieces = [];
-var timerOn = false;
-var stopTime = 0;
-var currentTime;
-var startingTime;
 var imageSelected;
-var style = document.createElement('style');
 var timerStringified;
-var elems = document.getElementById('nav');
 var gameArray = [];
 
 // DOM variables
+var style = document.createElement('style');
+var elems;
 var gameForm = document.getElementById('gameForm');
 var playerNameInputEl = document.getElementById('playerName');
 var canvasEl = document.getElementById('canvas');
@@ -203,6 +199,45 @@ function swapPieces(currentPiece, currentDropPiece){
   drawCanvas();
 }
 
+function endGame(){
+  console.log('You won!');
+  timer = document.getElementById('timerDOMEL').textContent;
+  var timerStringified = JSON.stringify(timer);
+  // timerStringified = JSON.stringify(timer);
+  gameArray.push(timer);
+  localStorage.setItem('timerLSEl', timerStringified);
+  var gameArrayStringified = JSON.stringify(gameArray);
+  localStorage.setItem('gameArrayEl', gameArrayStringified);
+  // timer = document.getElementById('timerDOMEL').textContent;
+
+  var clearGame = document.getElementById('gameForm');
+  clearGame.textContent = null;
+  clearGame.textContent = 'Congratulations ' + playerNameInputEl + ', you won! It took you ' + timer + ' seconds to complete!';
+  // document.getElementById('timerDOMEL').textContent = '';
+  var nameReplayLabelEl = document.createElement('label');
+  nameReplayLabelEl.setAttribute('for', 'name');
+  nameReplayLabelEl.textContent = ' Name: ';
+  var nameReplayInputEl = document.createElement('input');
+  clearGame.appendChild(nameReplayLabelEl);
+  nameReplayInputEl.setAttribute('name', 'name');
+  nameReplayInputEl.setAttribute('type', 'text');
+  nameReplayInputEl.setAttribute('id', 'playerName');
+  nameReplayInputEl.value = playerNameInputEl;
+  clearGame.appendChild(nameReplayInputEl);
+  var playAgainBtn = document.createElement('button');
+  // playAgainBtn.setAttribute('id', 'start-button');
+  playAgainBtn.textContent = 'Play Again?';
+  var playAgainATag = document.createElement('a');
+  gameForm.removeEventListener('submit', handleStartButtonClick);
+  playAgainATag.setAttribute('href', 'index.html');
+  clearGame.appendChild(playAgainATag);
+  playAgainATag.appendChild(playAgainBtn);
+  // canvasEl.addEventListener('mousedown', handleCanvasMousedown);
+  // window.addEventListener('mousemove', handleCanvasMousemove);
+  // window.addEventListener('mouseup', handleCanvasMouseup);
+  // gameForm.addEventListener('submit', handleStartButtonClick);
+}
+
 // event handlers
 function handleStartButtonClick(event) {
   event.preventDefault();
@@ -214,8 +249,9 @@ function handleStartButtonClick(event) {
   drawCanvas();
   event.target.playerName.value = null;
   // console.log(checkFinished());
-  startingTime = Date.now();
+  elems = document.getElementById('nav');
   elems = new GameTimer(elems);
+  elems.reset();
   elems.start();
   console.log(checkFinished());
 }
@@ -254,16 +290,16 @@ function handleCanvasMouseup(event){
     swapPieces(currentPiece, currentDropPiece);
     imageSelected = null;
     if(checkFinished()){
+      // var timerStringified = JSON.stringify(timer);
       // console.log('You won!');
+      // timer = document.getElementById('timerDOMEL').textContent;
+      // gameArray.push(timer);
+      // timerStringified = JSON.stringify(timer);
+      // localStorage.setItem('timerLSEl', timerStringified);
+      // var gameArrayStringified = JSON.stringify(gameArray);
+      // localStorage.setItem('gameArrayEl', gameArrayStringified);
       elems.stop();
-      var timerStringified = JSON.stringify(timer);
-      console.log('You won!');
-      timer = document.getElementById('timerDOMEL').textContent;
-      gameArray.push(timer);
-      timerStringified = JSON.stringify(timer);
-      localStorage.setItem('timerLSEl', timerStringified);
-      var gameArrayStringified = JSON.stringify(gameArray);
-      localStorage.setItem('gameArrayEl', gameArrayStringified);
+      endGame();
     }
   }
   else {
