@@ -24,16 +24,18 @@ function clearButtonClick() {
 
 function addScore(){
   console.log(newGameArray);
-  // for (var i = 0; i < newGameArray.length; i + 2) {
-  //   playerNameLiEl = newGameArray[i];
-  //   for (var j = 1; j < newGameArray.length; j + 2) {
-  //     timerLiEl = newGameArray[j];
-  //     LiElId = document.createElement('li');
-  //     LiElId.setAttribute('class', 'scoreList');
-  //     LiElId.textContent = playerNameLiEl + ' ' + timerLiEl;
-  //     scoreBoardListEl.appendChild(LiElId);
-  //   }
-  // }
+  for (var i = 0; i < newGameArray.length; i++){
+    if(i % 2){
+      playerNameLiEl = newGameArray[i];
+    } else {
+      timerLiEl = newGameArray[i];
+    }
+    LiElId = document.createElement('li');
+    LiElId.setAttribute('class', 'scoreList');
+    LiElId.textContent = playerNameLiEl + ' ' + timerLiEl;
+    scoreBoardListEl.appendChild(LiElId);
+  }
+
 }
 
 addScore();
