@@ -17,10 +17,15 @@ fieldset {
   border-radius: 25px;
 }
 
+label {
+  position: relative;
+  padding-left: 3%;
+}
 
 #canvas {
 position: relative;
-
+margin-top: 20%;
+margin-left: 2.4%;
 }
 
 
@@ -48,12 +53,18 @@ button {
   margin: auto;
   clear: both;
   position: relative;
-  margin-top: 20%;
-  left: 14%;
+  margin-top: 10%;
   margin-bottom: 10%;
-  margin-left: -75px;
   bottom: 10%;
   border: 5px solid #3c3a3a;
+}
+
+#start-button {
+  left: 2%;
+}
+
+#clear-button {
+  left: 38%;
 }
 
 button:hover {
@@ -69,6 +80,8 @@ button:hover {
   margin-left: 5%;
 }
 
-canvas {
-
-}
+/*#scoreboard-table {
+  background-color: #323232;
+  color: white;
+  border-radius: 25px;
+}*/

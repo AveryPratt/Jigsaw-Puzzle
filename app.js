@@ -13,17 +13,13 @@ var currentDropPieceLocation;
 var xDimension = 2;
 var yDimension = 2;
 var pieces = [];
-var timerOn = false;
-var stopTime = 0;
-var currentTime;
-var startingTime;
 var imageSelected;
-var style = document.createElement('style');
 var timerStringified;
-var elems = document.getElementById('nav');
 var gameArray = [];
 
 // DOM variables
+var style = document.createElement('style');
+var elems;
 var gameForm = document.getElementById('gameForm');
 var playerNameInputEl = document.getElementById('playerName');
 var canvasEl = document.getElementById('canvas');
@@ -207,11 +203,9 @@ function findMinimumMoves(){
   var areas = [];
   for (var i = 0; i < pieces.length; i++) { // i = y index
     for (var j = 0; j < pieces[i].length; j++) { // j = x index
-      if(checkLocationsInAreas(areas, pieces[i][j]) === false){
+      if (checkLocationsInAreas(areas, pieces[i][j]) === false) {
         var currentArea = generateArea([], pieces[i][j]);
-        if(currentArea[0] === null){
-          areas.push(currentArea);
-        }
+        areas.push(currentArea);
       }
     }
   }
@@ -219,11 +213,13 @@ function findMinimumMoves(){
 }
 
 function checkLocationsInAreas(areas, piece){
+  console.log('checkLocationsInAreas', areas, piece);
   for (var i = 0; i < areas.length; i++) {
-    for (var j = 0; j < array.length; j++) {
-      if(areas[i][j].xLocationIndex === piece.xPieceIndex && areas[i][j].yLocationsIndex === piece.yPieceIndex){
+    for (var j = 0; j < areas[i].length; j++) {
+      console.log(`areas[${i}][${j}]:`, areas[i][j]);
+      if (areas[i][j].xPieceIndex === piece.xPieceIndex && areas[i][j].yPieceIndex === piece.yPieceIndex) {
+        console.log('checkLocationsInAreas found matching indices');
         return true;
-        continue;
       }
     }
   }
@@ -231,18 +227,58 @@ function checkLocationsInAreas(areas, piece){
 }
 
 function generateArea(pieceArr, piece, firstPiece){
-  pieceArr.push(piece);
-  if(firstPiece === undefined){
+  if(!firstPiece){
     // if first call
     firstPiece = piece;
-  } else if (firstPiece.yPieceIndex === piece.yPieceIndex && piece.xPieceIndex === piece.xPieceIndex){
+    pieceArr.push(piece);
+  } else if (firstPiece.yPieceIndex === piece.yPieceIndex && firstPiece.xPieceIndex === piece.xPieceIndex){
     // if solved
     return pieceArr;
   } else {
     // gets new piece at old piece's target location
-    var newPiece = pieces[piece.yPieceIndex][piece.xPieceIndex];
-    return generateArea(firstPiece, newPiece, pieceArr);
+    pieceArr.push(piece);
   }
+  var newPiece = pieces[piece.yPieceIndex][piece.xPieceIndex];
+  return generateArea(pieceArr, newPiece, firstPiece);
+}
+
+function endGame(){
+  console.log('You won!');
+  timer = document.getElementById('timerDOMEL').textContent;
+  var timerStringified = JSON.stringify(timer);
+  // timerStringified = JSON.stringify(timer);
+  gameArray.push(timer);
+  localStorage.setItem('timerLSEl', timerStringified);
+  var gameArrayStringified = JSON.stringify(gameArray);
+  localStorage.setItem('gameArrayEl', gameArrayStringified);
+  // timer = document.getElementById('timerDOMEL').textContent;
+
+  var clearGame = document.getElementById('gameForm');
+  clearGame.textContent = null;
+  clearGame.textContent = 'Congratulations ' + playerNameInputEl + ', you won! It took you ' + timer + ' seconds to complete!';
+  // document.getElementById('timerDOMEL').textContent = '';
+  var nameReplayLabelEl = document.createElement('label');
+  nameReplayLabelEl.setAttribute('for', 'name');
+  nameReplayLabelEl.textContent = ' Name: ';
+  var nameReplayInputEl = document.createElement('input');
+  clearGame.appendChild(nameReplayLabelEl);
+  nameReplayInputEl.setAttribute('name', 'name');
+  nameReplayInputEl.setAttribute('type', 'text');
+  nameReplayInputEl.setAttribute('id', 'playerName');
+  nameReplayInputEl.value = playerNameInputEl;
+  clearGame.appendChild(nameReplayInputEl);
+  var playAgainBtn = document.createElement('button');
+  // playAgainBtn.setAttribute('id', 'start-button');
+  playAgainBtn.textContent = 'Play Again?';
+  var playAgainATag = document.createElement('a');
+  gameForm.removeEventListener('submit', handleStartButtonClick);
+  playAgainATag.setAttribute('href', 'index.html');
+  clearGame.appendChild(playAgainATag);
+  playAgainATag.appendChild(playAgainBtn);
+  // canvasEl.addEventListener('mousedown', handleCanvasMousedown);
+  // window.addEventListener('mousemove', handleCanvasMousemove);
+  // window.addEventListener('mouseup', handleCanvasMouseup);
+  // gameForm.addEventListener('submit', handleStartButtonClick);
 }
 
 // event handlers
@@ -257,8 +293,9 @@ function handleStartButtonClick(event) {
   drawCanvas();
   event.target.playerName.value = null;
   // console.log(checkFinished());
-  startingTime = Date.now();
+  elems = document.getElementById('nav');
   elems = new GameTimer(elems);
+  elems.reset();
   elems.start();
   console.log(checkFinished());
 }
@@ -287,16 +324,16 @@ function handleCanvasMouseup(event){
     swapPieces(currentPiece, currentDropPiece);
     imageSelected = null;
     if(checkFinished()){
+      // var timerStringified = JSON.stringify(timer);
       // console.log('You won!');
+      // timer = document.getElementById('timerDOMEL').textContent;
+      // gameArray.push(timer);
+      // timerStringified = JSON.stringify(timer);
+      // localStorage.setItem('timerLSEl', timerStringified);
+      // var gameArrayStringified = JSON.stringify(gameArray);
+      // localStorage.setItem('gameArrayEl', gameArrayStringified);
       elems.stop();
-      var timerStringified = JSON.stringify(timer);
-      console.log('You won!');
-      timer = document.getElementById('timerDOMEL').textContent;
-      gameArray.push(timer);
-      timerStringified = JSON.stringify(timer);
-      localStorage.setItem('timerLSEl', timerStringified);
-      var gameArrayStringified = JSON.stringify(gameArray);
-      localStorage.setItem('gameArrayEl', gameArrayStringified);
+      endGame();
     }
   }
   else {
