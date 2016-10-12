@@ -16,14 +16,78 @@ var pieces = [];
 var imageSelected;
 var style = document.createElement('style');
 var timerStringified;
-var elems = document.getElementById('nav');
+var elems;
 var gameArray = [];
+var gameArrayStringified;
+var gameTimerInNav;
 
 // DOM variables
 var gameForm = document.getElementById('gameForm');
 var playerNameInputEl = document.getElementById('playerName');
 var canvasEl = document.getElementById('canvas');
 var ctx = canvasEl.getContext('2d');
+
+//adapted from http://jsbin.com/xayezotalo/edit?html,js,output
+var GameTimer = function(elem){
+  var timer = createTimer(),
+    offset,
+    clock,
+    interval;
+
+  // options = options || {};
+  // options.delay = options.delay || 1;
+
+  elem.appendChild(timer);
+
+  reset();
+
+  function createTimer(){
+    var timerDOMELJS = document.createElement('span');
+    timerDOMELJS.setAttribute('id', 'timerDOMEL');
+    return timerDOMELJS;
+  }
+
+  function start() {
+    if (!interval) {
+      offset = Date.now();
+      interval = setInterval(update, options.delay);
+    }
+  }
+
+  function stop() {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
+  }
+
+  function reset() {
+    clock = 0;
+    render(0);
+  }
+
+  function update() {
+    clock += delta();
+    render();
+  }
+
+  function render() {
+    timer.innerHTML = clock / 1000;
+  }
+
+  function delta() {
+    var now = Date.now(),
+      d = now - offset;
+
+    offset = now;
+    return d;
+  }
+
+  this.start = start;
+  this.stop = stop;
+  this.reset = reset;
+
+};
 
 //check localStorage
 if(localStorage.getItem('gameArrayEl')){
@@ -137,71 +201,10 @@ function swapPieces(currentPiece, currentDropPiece){
   drawCanvas();
 }
 
-//adapted from http://jsbin.com/xayezotalo/edit?html,js,output
-var GameTimer = function(elem, options){
-  var timer = createTimer(),
-  offset,
-  clock,
-  interval;
-
-  options = options || {};
-  options.delay = options.delay || 1;
-
-  elem.appendChild(timer);
-
-  reset();
-
-  function createTimer(){
-    var timerDOMELJS = document.createElement('span');
-    timerDOMELJS.setAttribute('id', 'timerDOMEL');
-    return timerDOMELJS;
-  }
-
-  function start() {
-    if (!interval) {
-      offset = Date.now();
-      interval = setInterval(update, options.delay);
-    }
-  }
-
-  function stop() {
-    if (interval) {
-      clearInterval(interval);
-      interval = null;
-    }
-  }
-
-  function reset() {
-    clock = 0;
-    render(0);
-  }
-
-  function update() {
-    clock += delta();
-    render();
-  }
-
-  function render() {
-    timer.innerHTML = clock / 1000;
-  }
-
-  function delta() {
-    var now = Date.now(),
-    d = now - offset;
-
-    offset = now;
-    return d;
-  }
-
-  this.start = start;
-  this.stop = stop;
-  this.reset = reset;
-
-};
-
 function endGame(){
 
 }
+
 // event handlers
 function handleStartButtonClick(event) {
   event.preventDefault();
@@ -214,8 +217,9 @@ function handleStartButtonClick(event) {
   event.target.playerName.value = null;
   // console.log(checkFinished());
   startingTime = Date.now();
-  elems = new GameTimer(elems);
-  elems.start();
+  elems = document.getElementById('nav');
+  gameTimerInNav = new GameTimer(elems);
+  gameTimerInNav.start();
   console.log(checkFinished());
 }
 
@@ -243,33 +247,53 @@ function handleCanvasMousemove(event){
 }
 
 function handleCanvasMouseup(event){
-  getMousePosition(event);
-  var xValue = mouse.x / (canvas.width / xDimension);
-  var yValue = mouse.y / (canvas.height / yDimension);
-  currentDropPieceLocation = new ArrayLocation(Math.floor(yValue), Math.floor(xValue));
-  // console.log(currentDropPiece);
-  currentDropPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
-  swapPieces(currentPiece, currentDropPiece);
-  imageSelected = null;
+  if(event.target === canvasEl){
+    getMousePosition(event);
+    var xValue = mouse.x / (canvas.width / xDimension);
+    var yValue = mouse.y / (canvas.height / yDimension);
+    currentDropPieceLocation = new ArrayLocation(Math.floor(yValue), Math.floor(xValue));
+    // console.log(currentDropPiece);
+    currentDropPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
+    swapPieces(currentPiece, currentDropPiece);
+    imageSelected = null;
+    if(checkFinished()){
+      // console.log('You won!');
+      gameTimerInNav.stop();
+      timerStringified = JSON.stringify(timer);
+      console.log('You won!');
+      timer = document.getElementById('timerDOMEL').textContent;
+      gameArray.push(timer);
+      timerStringified = JSON.stringify(timer);
+      localStorage.setItem('timerLSEl', timerStringified);
+      gameArrayStringified = JSON.stringify(gameArray);
+      localStorage.setItem('gameArrayEl', gameArrayStringified);
+    }
+  }
+  else {
+    console.log('mouse up over window');
+  }
+  currentPiece = null;
+  currentDropPiece = null;
+  currentPieceLocation = null;
+  currentDropPieceLocation = null;
   style.type = 'text/css';
   style.innerHTML = '* {cursor: initial;}';
   document.getElementsByTagName('head')[0].appendChild(style);
   if(checkFinished()){
     // console.log('You won!');
-    elems.stop();
+    gameTimerInNav.stop();
     timerStringified = JSON.stringify(timer);
     console.log('You won!');
     timer = document.getElementById('timerDOMEL').textContent;
     gameArray.push(timer);
     timerStringified = JSON.stringify(timer);
     localStorage.setItem('timerLSEl', timerStringified);
-    var gameArrayStringified = JSON.stringify(gameArray);
+    gameArrayStringified = JSON.stringify(gameArray);
     localStorage.setItem('gameArrayEl', gameArrayStringified);
   }
 }
 
-
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
 window.addEventListener('mousemove', handleCanvasMousemove);
-canvasEl.addEventListener('mouseup', handleCanvasMouseup);
+window.addEventListener('mouseup', handleCanvasMouseup);
 gameForm.addEventListener('submit', handleStartButtonClick);
