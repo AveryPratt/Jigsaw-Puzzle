@@ -13,10 +13,6 @@ var currentDropPieceLocation;
 var xDimension = 2;
 var yDimension = 2;
 var pieces = [];
-var timerOn = false;
-var stopTime = 0;
-var currentTime;
-var startingTime;
 var imageSelected;
 var style = document.createElement('style');
 var timerStringified;
@@ -141,6 +137,71 @@ function swapPieces(currentPiece, currentDropPiece){
   drawCanvas();
 }
 
+//adapted from http://jsbin.com/xayezotalo/edit?html,js,output
+var GameTimer = function(elem, options){
+  var timer = createTimer(),
+  offset,
+  clock,
+  interval;
+
+  options = options || {};
+  options.delay = options.delay || 1;
+
+  elem.appendChild(timer);
+
+  reset();
+
+  function createTimer(){
+    var timerDOMELJS = document.createElement('span');
+    timerDOMELJS.setAttribute('id', 'timerDOMEL');
+    return timerDOMELJS;
+  }
+
+  function start() {
+    if (!interval) {
+      offset = Date.now();
+      interval = setInterval(update, options.delay);
+    }
+  }
+
+  function stop() {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
+  }
+
+  function reset() {
+    clock = 0;
+    render(0);
+  }
+
+  function update() {
+    clock += delta();
+    render();
+  }
+
+  function render() {
+    timer.innerHTML = clock / 1000;
+  }
+
+  function delta() {
+    var now = Date.now(),
+    d = now - offset;
+
+    offset = now;
+    return d;
+  }
+
+  this.start = start;
+  this.stop = stop;
+  this.reset = reset;
+
+};
+
+function endGame(){
+
+}
 // event handlers
 function handleStartButtonClick(event) {
   event.preventDefault();
@@ -196,7 +257,7 @@ function handleCanvasMouseup(event){
   if(checkFinished()){
     // console.log('You won!');
     elems.stop();
-    var timerStringified = JSON.stringify(timer);
+    timerStringified = JSON.stringify(timer);
     console.log('You won!');
     timer = document.getElementById('timerDOMEL').textContent;
     gameArray.push(timer);
@@ -207,67 +268,6 @@ function handleCanvasMouseup(event){
   }
 }
 
-//adapted from http://jsbin.com/xayezotalo/edit?html,js,output
-var GameTimer = function(elem, options){
-  var timer = createTimer(),
-    offset,
-    clock,
-    interval;
-
-  options = options || {};
-  options.delay = options.delay || 1;
-
-  elem.appendChild(timer);
-
-  reset();
-
-  function createTimer(){
-    var timerDOMELJS = document.createElement('span');
-    timerDOMELJS.setAttribute('id', 'timerDOMEL');
-    return timerDOMELJS;
-  }
-
-  function start() {
-    if (!interval) {
-      offset = Date.now();
-      interval = setInterval(update, options.delay);
-    }
-  }
-
-  function stop() {
-    if (interval) {
-      clearInterval(interval);
-      interval = null;
-    }
-  }
-
-  function reset() {
-    clock = 0;
-    render(0);
-  }
-
-  function update() {
-    clock += delta();
-    render();
-  }
-
-  function render() {
-    timer.innerHTML = clock / 1000;
-  }
-
-  function delta() {
-    var now = Date.now(),
-      d = now - offset;
-
-    offset = now;
-    return d;
-  }
-
-  this.start = start;
-  this.stop = stop;
-  this.reset = reset;
-
-};
 
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
 window.addEventListener('mousemove', handleCanvasMousemove);
