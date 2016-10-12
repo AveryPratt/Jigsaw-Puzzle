@@ -16,7 +16,7 @@ body {
 
 figcaption {
   height: 300px;
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 /*sections*/
@@ -139,7 +139,7 @@ display: inline-block;
 }
 
 #conc {
-    color: Purple;
+    color: green;
     font-size: 24px;
     font-family: 'Lalezar', cursive;
 }
