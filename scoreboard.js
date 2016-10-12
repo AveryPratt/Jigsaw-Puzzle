@@ -25,15 +25,15 @@ function clearButtonClick() {
 function addScore(){
   console.log(newGameArray);
   for (var i = 0; i < newGameArray.length; i++){
-    if(i % 2){
+    if(i % 2 === 0){
       playerNameLiEl = newGameArray[i];
     } else {
       timerLiEl = newGameArray[i];
+      LiElId = document.createElement('li');
+      LiElId.setAttribute('class', 'scoreList');
+      LiElId.textContent = playerNameLiEl + ' ' + timerLiEl;
+      scoreBoardListEl.appendChild(LiElId);
     }
-    LiElId = document.createElement('li');
-    LiElId.setAttribute('class', 'scoreList');
-    LiElId.textContent = playerNameLiEl + ' ' + timerLiEl;
-    scoreBoardListEl.appendChild(LiElId);
   }
 
 }

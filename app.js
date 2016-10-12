@@ -189,13 +189,15 @@ function handleCanvasMouseup(event){
   // console.log(currentDropPiece);
   currentDropPiece = pieces[Math.floor(yValue)][Math.floor(xValue)];
   swapPieces(currentPiece, currentDropPiece);
+  imageSelected = null;
+  style.type = 'text/css';
+  style.innerHTML = '* {cursor: initial;}';
+  document.getElementsByTagName('head')[0].appendChild(style);
   if(checkFinished()){
     // console.log('You won!');
-    gameTimer(startingTime);
-    timer = ' | ' + timeInMMSS(stopTime);
+    elems.stop();
     var timerStringified = JSON.stringify(timer);
     console.log('You won!');
-    elems.stop();
     timer = document.getElementById('timerDOMEL').textContent;
     gameArray.push(timer);
     timerStringified = JSON.stringify(timer);
@@ -203,10 +205,6 @@ function handleCanvasMouseup(event){
     var gameArrayStringified = JSON.stringify(gameArray);
     localStorage.setItem('gameArrayEl', gameArrayStringified);
   }
-  imageSelected = null;
-  style.type = 'text/css';
-  style.innerHTML = '* {cursor: initial;}';
-  document.getElementsByTagName('head')[0].appendChild(style);
 }
 
 //adapted from http://jsbin.com/xayezotalo/edit?html,js,output
