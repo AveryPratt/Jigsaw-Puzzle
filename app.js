@@ -14,28 +14,26 @@ var xDimension = 2;
 var yDimension = 2;
 var pieces = [];
 var imageSelected;
-var style = document.createElement('style');
 var timerStringified;
-var elems;
 var gameArray = [];
-var gameArrayStringified;
-var gameTimerInNav;
 
 // DOM variables
+var style = document.createElement('style');
+var elems = document.getElementById('nav');
 var gameForm = document.getElementById('gameForm');
 var playerNameInputEl = document.getElementById('playerName');
 var canvasEl = document.getElementById('canvas');
 var ctx = canvasEl.getContext('2d');
 
 //adapted from http://jsbin.com/xayezotalo/edit?html,js,output
-var GameTimer = function(elem){
+var GameTimer = function(elem, options){
   var timer = createTimer(),
     offset,
     clock,
     interval;
 
-  // options = options || {};
-  // options.delay = options.delay || 1;
+  options = options || {};
+  options.delay = options.delay || 1;
 
   elem.appendChild(timer);
 
@@ -202,7 +200,32 @@ function swapPieces(currentPiece, currentDropPiece){
 }
 
 function endGame(){
-
+  var clearGame = document.getElementById('gameForm');
+  clearGame.textContent = null;
+  clearGame.textContent = 'Congratulations ' + playerNameInputEl + ', you won! It took you ' + timer + ' seconds to complete!';
+  timer = 0;
+  elems.reset();
+  var nameReplayLabelEl = document.createElement('label');
+  nameReplayLabelEl.setAttribute('for', 'name');
+  nameReplayLabelEl.textContent = 'Name: ';
+  var nameReplayInputEl = document.createElement('input');
+  clearGame.appendChild(nameReplayLabelEl);
+  nameReplayInputEl.setAttribute('name', 'name');
+  nameReplayInputEl.setAttribute('type', 'text');
+  nameReplayInputEl.setAttribute('id', 'playerName');
+  nameReplayInputEl.value = playerNameInputEl;
+  clearGame.appendChild(nameReplayInputEl);
+  var playAgainBtn = document.createElement('button');
+  playAgainBtn.setAttribute('id', 'start-button');
+  playAgainBtn.setAttribute('type', 'submit');
+  playAgainBtn.textContent = 'Play Again?';
+  clearGame.appendChild(playAgainBtn);
+  // timerResetDomEl = document.getElementById('timerDOMEL');
+  // timerResetDomEl.textContent = null;
+  canvasEl.addEventListener('mousedown', handleCanvasMousedown);
+  window.addEventListener('mousemove', handleCanvasMousemove);
+  window.addEventListener('mouseup', handleCanvasMouseup);
+  gameForm.addEventListener('submit', handleStartButtonClick);
 }
 
 // event handlers
@@ -216,10 +239,8 @@ function handleStartButtonClick(event) {
   drawCanvas();
   event.target.playerName.value = null;
   // console.log(checkFinished());
-  startingTime = Date.now();
-  elems = document.getElementById('nav');
-  gameTimerInNav = new GameTimer(elems);
-  gameTimerInNav.start();
+  elems = new GameTimer(elems);
+  elems.start();
   console.log(checkFinished());
 }
 
@@ -258,15 +279,16 @@ function handleCanvasMouseup(event){
     imageSelected = null;
     if(checkFinished()){
       // console.log('You won!');
-      gameTimerInNav.stop();
-      timerStringified = JSON.stringify(timer);
+      elems.stop();
+      var timerStringified = JSON.stringify(timer);
       console.log('You won!');
       timer = document.getElementById('timerDOMEL').textContent;
       gameArray.push(timer);
       timerStringified = JSON.stringify(timer);
       localStorage.setItem('timerLSEl', timerStringified);
-      gameArrayStringified = JSON.stringify(gameArray);
+      var gameArrayStringified = JSON.stringify(gameArray);
       localStorage.setItem('gameArrayEl', gameArrayStringified);
+      endGame();
     }
   }
   else {
@@ -279,18 +301,6 @@ function handleCanvasMouseup(event){
   style.type = 'text/css';
   style.innerHTML = '* {cursor: initial;}';
   document.getElementsByTagName('head')[0].appendChild(style);
-  if(checkFinished()){
-    // console.log('You won!');
-    gameTimerInNav.stop();
-    timerStringified = JSON.stringify(timer);
-    console.log('You won!');
-    timer = document.getElementById('timerDOMEL').textContent;
-    gameArray.push(timer);
-    timerStringified = JSON.stringify(timer);
-    localStorage.setItem('timerLSEl', timerStringified);
-    gameArrayStringified = JSON.stringify(gameArray);
-    localStorage.setItem('gameArrayEl', gameArrayStringified);
-  }
 }
 
 canvasEl.addEventListener('mousedown', handleCanvasMousedown);
