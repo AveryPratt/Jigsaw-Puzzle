@@ -257,11 +257,9 @@ function handleCanvasMouseup(event){
   document.getElementsByTagName('head')[0].appendChild(style);
   if(checkFinished()){
     // console.log('You won!');
-    gameTimer(startingTime);
-    timer = ' | ' + timeInMMSS(stopTime);
+    elems.stop();
     var timerStringified = JSON.stringify(timer);
     console.log('You won!');
-    elems.stop();
     timer = document.getElementById('timerDOMEL').textContent;
     gameArray.push(timer);
     timerStringified = JSON.stringify(timer);
