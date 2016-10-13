@@ -6,6 +6,7 @@ body {
     margin-top: 200px;
     font-size: 300%;
     text-align: center;
+    margin-left: 12%;
 }
 
 #team {
@@ -64,7 +65,7 @@ margin-right: 5%;
     -o-transform: rotate(360deg);
     -ms-transform: rotate(360deg);
     transform: rotate(360deg);
-        
+
 }
 
 #Avery {
