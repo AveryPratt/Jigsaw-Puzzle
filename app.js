@@ -212,8 +212,6 @@ function swapPieces(currentPiece, currentDropPiece) {
   }
 }
 
-
-
 function findMinimumMoves() {
   var areas = [];
   for (var i = 0; i < pieces.length; i++) { // i = y index
@@ -326,6 +324,9 @@ function endGame(won) {
 
 
 // event handlers
+
+
+
 function handleStartButtonClick(event) {
   event.preventDefault();
   playerNameInputEl = event.target.playerName.value;
