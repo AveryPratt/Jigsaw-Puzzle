@@ -31,7 +31,7 @@ function addScore(){
       timerLiEl = newGameArray[i];
       LiElId = document.createElement('li');
       LiElId.setAttribute('class', 'scoreList');
-      LiElId.textContent = playerNameLiEl + ' ' + timerLiEl;
+      LiElId.textContent = playerNameLiEl + '\'s score is ' + timerLiEl + ' seconds';
       scoreBoardListEl.appendChild(LiElId);
     }
   }
