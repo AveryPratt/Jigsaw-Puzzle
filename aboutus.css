@@ -43,6 +43,7 @@ width: 270px;
 margin-right: 5%;
 }
 
+
 #agrow img {
     height: 250px;
     width: 250px;
@@ -53,6 +54,7 @@ margin-right: 5%;
     transition: all 0.5s ease;
     border: 5px solid black;
     display: block;
+
 }
 
 #agrow img:hover {
@@ -62,6 +64,7 @@ margin-right: 5%;
     -o-transform: rotate(360deg);
     -ms-transform: rotate(360deg);
     transform: rotate(360deg);
+        
 }
 
 #Avery {
