@@ -22,7 +22,8 @@ header {
   font-size: 100%;
   padding: 15px;
   position: fixed;
-    margin-left: 60%;
+  margin-left: 70%;
+  margin-top: 2.2%;
 }
 
 #nav li {
@@ -40,7 +41,6 @@ header {
   background-color: #3c3a3a;
   transition: background-color 350ms ease;
   border-radius: 10px;
-
 }
 
 
@@ -64,8 +64,8 @@ header {
 #title {
   font-size: 220%;
   position: fixed;
-  top: -1%;
-  left: 4%;
+  /*top: -1%;*/
+  left: 5%;
 }
 
 .hide {
