@@ -100,8 +100,9 @@ if (localStorage.getItem('gameArrayEl')) {
 
 //check sessionStorage
 if (sessionStorage.getItem('reloaded') === 'true') {
-  var savedName = localStorage.getItem('saveNameLS')
-  document.getElementById('playerName').value = JSON.parse(savedName);
+  var savedName = localStorage.getItem('saveNameLS');
+  savedName = JSON.parse(savedName);
+  document.getElementById('playerName').value = savedName;
   sessionStorage.setItem('reloaded', false);
 }
 // constructors
@@ -212,8 +213,6 @@ function swapPieces(currentPiece, currentDropPiece) {
   }
 }
 
-
-
 function findMinimumMoves() {
   var areas = [];
   for (var i = 0; i < pieces.length; i++) { // i = y index
@@ -289,6 +288,7 @@ function endGame(won) {
     clearGame.appendChild(playAgainATag);
     playAgainATag.appendChild(playAgainBtn);
     sessionStorage.setItem('reloaded', true);
+    playAgainBtn.addEventListener('click', handleReplayButtonClick);
   } else {
   console.log('You suck!');
     timer = document.getElementById('timerDOMEL').textContent;
@@ -320,12 +320,31 @@ function endGame(won) {
     clearGame.appendChild(playAgainATag);
     playAgainATag.appendChild(playAgainBtn);
     sessionStorage.setItem('reloaded', true);
-
+    playAgainBtn.addEventListener('click', handleReplayButtonClick);
   }
 }
 
 
 // event handlers
+
+function handleReplayButtonClick(event){
+  console.log("Handle Replay Button Click Runs");
+  var nameReplayInputEl = document.getElementById('playerName');
+  var saveName = JSON.stringify(nameReplayInputEl.value);
+  console.log(saveName, 'save Name after button click');
+  localStorage.setItem('saveNameLS', saveName);
+  sessionStorage.setItem('reloaded', true);
+}
+
+function startButtonfromReplay(){
+  populatePieces();
+  minCount = findMinimumMoves();
+  drawCanvas();
+  elems.reset();
+  elems.start();
+  gameForm.removeEventListener('submit', handleStartButtonClick);
+}
+
 function handleStartButtonClick(event) {
   event.preventDefault();
   playerNameInputEl = event.target.playerName.value;
