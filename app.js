@@ -204,7 +204,11 @@ function swapPieces(currentPiece, currentDropPiece) {
   drawCanvas();
   count += 1;
   if (count >= mincount) {
-    endGame(false);
+    if(checkFinished){
+      endGame(true);
+    } else {
+      endGame(false);
+    }
   }
 }
 
@@ -366,16 +370,8 @@ function handleCanvasMouseup(event) {
   }
     imageSelected = null;
     if (checkFinished()) {
-      // var timerStringified = JSON.stringify(timer);
-      // console.log('You won!');
-      // timer = document.getElementById('timerDOMEL').textContent;
-      // gameArray.push(timer);
-      // timerStringified = JSON.stringify(timer);
-      // localStorage.setItem('timerLSEl', timerStringified);
-      // var gameArrayStringified = JSON.stringify(gameArray);
-      // localStorage.setItem('gameArrayEl', gameArrayStringified);
       elems.stop();
-      endGame(true);
+      // endGame(true);
     }
   } else {
     console.log('mouse up over window');
