@@ -22,20 +22,8 @@ function clearButtonClick() {
   newGameArray = [];
 }
 
-function Score(name, time){
-  this.name = name;
-  this.time = time;
-}
-
 // startGameButton.addEventListener('click', startButtonClick);
 
-function addScores(){
-  for (var i = 0; i < newGameArray.length; i++){
-    if(i % 2 === 0){
-      scoreArray.push(new Score(newGameArray[i], newGameArray[i + 1]));
-    }
-  }
-}
 
 function compareScores(score1, score2){
   if(score1.time > score2.time){
@@ -45,17 +33,16 @@ function compareScores(score1, score2){
 }
 
 function displayScores(){
-  scoreArray.sort(compareScores);
-  for (var i = 0; i < scoreArray.length; i++) {
-    console.log(scoreArray.time);
+  newGameArray.sort(compareScores);
+  for (var i = 0; i < newGameArray.length; i++) {
+    console.log(newGameArray.time);
     LiElId = document.createElement('li');
     LiElId.setAttribute('class', 'scoreList');
-    LiElId.textContent = scoreArray[i].name + '\'s score is ' + scoreArray[i].time + ' seconds';
+    LiElId.textContent = newGameArray[i].name + '\'s score is ' + newGameArray[i].time + ' seconds';
     scoreBoardListEl.appendChild(LiElId);
   }
 }
 
-addScores();
 displayScores();
 
 clearBoard.addEventListener('click', clearButtonClick);
