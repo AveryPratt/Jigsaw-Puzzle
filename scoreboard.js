@@ -11,8 +11,7 @@ if(localStorage.getItem('gameArrayEl')){
 };
 
 var newGameArray;
-var playerNameLiEl;
-var timerLiEl;
+var scoreArray = [];
 var LiElId;
 var clearBoard = document.getElementById('clear-button');
 var scoreBoardListEl = document.getElementById('scoreboard-table');
@@ -23,24 +22,40 @@ function clearButtonClick() {
   newGameArray = [];
 }
 
+function Score(name, time){
+  this.name = name;
+  this.time = time;
+}
+
 // startGameButton.addEventListener('click', startButtonClick);
 
-function addScore(){
-  console.log(newGameArray);
+function addScores(){
   for (var i = 0; i < newGameArray.length; i++){
     if(i % 2 === 0){
-      playerNameLiEl = newGameArray[i];
-    } else {
-      timerLiEl = newGameArray[i];
-      LiElId = document.createElement('li');
-      LiElId.setAttribute('class', 'scoreList');
-      LiElId.textContent = playerNameLiEl + '\'s score is ' + timerLiEl + ' seconds';
-      scoreBoardListEl.appendChild(LiElId);
+      scoreArray.push(new Score(newGameArray[i], newGameArray[i + 1]));
     }
   }
 }
 
+function compareScores(score1, score2){
+  if(score1.time > score2.time){
+    return 1;
+  }
+  else return -1;
+}
 
-addScore();
+function displayScores(){
+  scoreArray.sort(compareScores);
+  for (var i = 0; i < scoreArray.length; i++) {
+    console.log(scoreArray.time);
+    LiElId = document.createElement('li');
+    LiElId.setAttribute('class', 'scoreList');
+    LiElId.textContent = scoreArray[i].name + '\'s score is ' + scoreArray[i].time + ' seconds';
+    scoreBoardListEl.appendChild(LiElId);
+  }
+}
+
+addScores();
+displayScores();
 
 clearBoard.addEventListener('click', clearButtonClick);
