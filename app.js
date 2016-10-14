@@ -11,6 +11,7 @@ var canvasEl = document.getElementById('canvas');
 var ctx = canvasEl.getContext('2d');
 
 // global variables
+var locationsUsed = [];
 var nameReplayInputEl;
 var nameReplayLabelEl;
 var saveName;
@@ -18,8 +19,8 @@ var currentPiece = null;
 var currentDropPiece = null;
 var currentPieceLocation = null;
 var currentDropPieceLocation = null;
-var xDimension = 2;
-var yDimension = 2;
+var xDimension = 3;
+var yDimension = 3;
 var count = 0;
 var minCount;
 var stopWatch = new GameTimer(nav);
@@ -120,14 +121,14 @@ function comparePieces(piece1, piece2){
   }
 }
 
-function generateRandLocation(minY, maxY, minX, maxX) {
-  var randY = Math.round(Math.random(minY, maxY));
-  var randX = Math.round(Math.random(minX, maxX));
+function generateRandLocation(maxY, maxX) {
+  var randY = Math.floor(Math.random() * maxY);
+  var randX = Math.floor(Math.random() * maxX);
   return new ArrayLocation(randY, randX);
 }
 
 function generateNewLocation(locationsUsed, yIndex, xIndex) {
-  var currentLocation = generateRandLocation(0, yDimension, 0, xDimension);
+  var currentLocation = generateRandLocation(yDimension, xDimension);
   if (checkUsedLocations(currentLocation, locationsUsed)) {
     if (checkCurrentLocation(currentLocation, yIndex, xIndex)) {
       return currentLocation;
@@ -155,12 +156,11 @@ function checkCurrentLocation(currentLocation, yIndex, xIndex) {
 }
 
 function populatePieces() {
-  var locationsUsed = [];
   for (var i = 0; i < yDimension; i++) {
     pieces[i] = [];
     for (var j = 0; j < xDimension; j++) {
       var myLocation = generateNewLocation(locationsUsed, i, j);
-      pieces[i][j] = new Piece('img/easy/logo-' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex + '.png');
+      pieces[i][j] = new Piece('img/medi/logo-' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex + '.png');
       locationsUsed.push(myLocation);
     }
   }
@@ -169,7 +169,11 @@ function populatePieces() {
 function drawCanvas() {
   for (var i = 0; i < pieces.length; i++) {
     for (var j = 0; j < pieces[i].length; j++) {
+      // console.log(`pieces[${i}][${j}]`, pieces[i][j]);
+      console.log('top left X', j * (canvasEl.width / xDimension));
+      console.log('top left Y', i * (canvasEl.height / yDimension));
       ctx.drawImage(pieces[i][j].img, j * (canvasEl.width / xDimension), i * (canvasEl.height / yDimension), canvasEl.width / xDimension, canvasEl.height / yDimension);
+
       ctx.strokeRect(j * (canvasEl.width / xDimension), i * (canvasEl.height / yDimension), canvasEl.width / xDimension, canvasEl.height / yDimension);
     }
   }
@@ -266,9 +270,10 @@ function endGame(won) {
   nameReplayInputEl.setAttribute('name', 'name');
   nameReplayInputEl.setAttribute('type', 'text');
   nameReplayInputEl.setAttribute('id', 'playerName');
-  nameReplayInputEl.value = playerNameInputEl.value;
   gameForm.appendChild(nameReplayInputEl);
+  nameReplayInputEl.value = playerNameInputEl.value;
   var playAgainBtn = document.createElement('button');
+  playAgainBtn.setAttribute('id', 'play-again-button')
   playAgainBtn.textContent = 'Play Again?';
   var playAgainATag = document.createElement('a');
   gameForm.removeEventListener('submit', handleStartButtonClick);
@@ -280,15 +285,21 @@ function endGame(won) {
 
 // event handlers
 function handleReplayButtonClick(event){
+  // setTimeout(1000);
+  console.log('handleReplayButtonClick', event);
   saveName = JSON.stringify(nameReplayInputEl.value);
   localStorage.setItem('saveNameLS', saveName);
   sessionStorage.setItem('reloaded', true);
-  playAgainBtn.addEventListener('click', handleStartButtonClick);
+  // var playAgainBtn = document.getElementById('play-again-button');
+  // playAgainBtn.addEventListener('click', handleStartButtonClick);
+  console.log('pieces', pieces);
 }
 
 function handleStartButtonClick(event) {
+  console.log('handleStartButtonClick', event);
   event.preventDefault();
   populatePieces();
+  console.log('pieces', pieces);
   minCount = findMinimumMoves();
   drawCanvas();
   stopWatch.reset();
@@ -297,12 +308,23 @@ function handleStartButtonClick(event) {
 }
 
 function startButtonfromReplay(){
+  pieces = [];
+
+  console.log('startButtonfromReplay');
+  console.log('startButtonfromReplay pieces before population', pieces);
   populatePieces();
+  console.log('startButtonfromReplay pieces after population', pieces);
   minCount = findMinimumMoves();
+  console.log('startButtonfromReplay pieces after moves calculation', pieces);
   drawCanvas();
+  // count = 0;
+  // swapPieces(pieces[0][0], pieces[0][1]);
+  // swapPieces(pieces[0][1], pieces[0][0]);
+  console.log('startButtonfromReplay pieces after drawn', pieces);
   stopWatch.reset();
   stopWatch.start();
   gameForm.removeEventListener('submit', handleStartButtonClick);
+  console.log('startButtonfromReplay pieces at end', pieces);
 }
 
 
@@ -359,7 +381,7 @@ window.addEventListener('mouseup', handleMouseup);
   if (sessionStorage.getItem('reloaded') === 'true') {
     var savedName = localStorage.getItem('saveNameLS');
     document.getElementById('playerName').value = JSON.parse(savedName);
-    startButtonfromReplay();
+    // startButtonfromReplay();
     sessionStorage.setItem('reloaded', false);
   }
 }());
