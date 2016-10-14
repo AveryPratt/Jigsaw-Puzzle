@@ -1,17 +1,6 @@
 'use strict';
 
-//check localStorage
-if(localStorage.getItem('gameArrayEl')){
-  var loadOldGames = localStorage.getItem('gameArrayEl');
-  newGameArray = JSON.parse(loadOldGames);
-  console.log('newGameArray: ', newGameArray);
-} else {
-  console.log('nothing found in localStorage');
-  newGameArray = [];
-};
-
 var newGameArray;
-var scoreArray = [];
 var LiElId;
 var clearBoard = document.getElementById('clear-button');
 var scoreBoardListEl = document.getElementById('scoreboard-table');
@@ -24,9 +13,8 @@ function clearButtonClick() {
 
 // startGameButton.addEventListener('click', startButtonClick);
 
-
 function compareScores(score1, score2){
-  if(score1.time > score2.time){
+  if(parseFloat(score1.time) > parseFloat(score2.time)){
     return 1;
   }
   else return -1;
@@ -43,6 +31,18 @@ function displayScores(){
   }
 }
 
-displayScores();
-
 clearBoard.addEventListener('click', clearButtonClick);
+
+// iife
+(function checkLocalStorage(){
+  if(localStorage.getItem('gameArrayEl')){
+    var loadOldGames = localStorage.getItem('gameArrayEl');
+    newGameArray = JSON.parse(loadOldGames);
+    console.log('newGameArray: ', newGameArray);
+  } else {
+    console.log('nothing found in localStorage');
+    newGameArray = [];
+  }
+}());
+
+displayScores();

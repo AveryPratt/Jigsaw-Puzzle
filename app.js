@@ -32,6 +32,8 @@ var pieces = [];
 var gameArray = [];
 var currentScore;
 
+
+// constructors
 //adapted from http://jsbin.com/xayezotalo/edit?html,js,output
 function GameTimer(elem, options) {
   var timer = createTimer(),
@@ -93,7 +95,6 @@ function GameTimer(elem, options) {
   this.reset = reset;
 };
 
-// constructors
 function Piece(source) {
   this.img = new Image();
   this.img.src = source;
@@ -273,7 +274,7 @@ function endGame(won) {
   gameForm.appendChild(nameReplayInputEl);
   nameReplayInputEl.value = playerNameInputEl.value;
   var playAgainBtn = document.createElement('button');
-  playAgainBtn.setAttribute('id', 'play-again-button')
+  playAgainBtn.setAttribute('id', 'play-again-button');
   playAgainBtn.textContent = 'Play Again?';
   var playAgainATag = document.createElement('a');
   gameForm.removeEventListener('submit', handleStartButtonClick);
@@ -308,8 +309,6 @@ function handleStartButtonClick(event) {
 }
 
 function startButtonfromReplay(){
-  pieces = [];
-
   console.log('startButtonfromReplay');
   console.log('startButtonfromReplay pieces before population', pieces);
   populatePieces();
@@ -317,16 +316,12 @@ function startButtonfromReplay(){
   minCount = findMinimumMoves();
   console.log('startButtonfromReplay pieces after moves calculation', pieces);
   drawCanvas();
-  // count = 0;
-  // swapPieces(pieces[0][0], pieces[0][1]);
-  // swapPieces(pieces[0][1], pieces[0][0]);
   console.log('startButtonfromReplay pieces after drawn', pieces);
   stopWatch.reset();
   stopWatch.start();
   gameForm.removeEventListener('submit', handleStartButtonClick);
   console.log('startButtonfromReplay pieces at end', pieces);
 }
-
 
 function handleCanvasMousedown(event) {
   getMousePosition(event);
