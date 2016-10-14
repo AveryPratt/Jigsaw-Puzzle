@@ -32,6 +32,7 @@ var pieces = [];
 var gameArray = [];
 var currentScore;
 
+// constructors
 //adapted from http://jsbin.com/xayezotalo/edit?html,js,output
 function GameTimer(elem, options) {
   var timer = createTimer(),
@@ -93,13 +94,12 @@ function GameTimer(elem, options) {
   this.reset = reset;
 };
 
-// constructors
 function Piece(source) {
   this.img = new Image();
   this.img.src = source;
   this.img.setAttribute('style', 'border: 1px solid #000000;');
-  this.yPieceIndex = source.slice(14, 15);
-  this.xPieceIndex = source.slice(16, 17);
+  this.yPieceIndex = source.slice(source.length - 7, source.length - 6);
+  this.xPieceIndex = source.slice(source.length - 5, source.length - 4);
 };
 
 function ArrayLocation(yLocationIndex, xLocationIndex) {
@@ -107,9 +107,10 @@ function ArrayLocation(yLocationIndex, xLocationIndex) {
   this.xLocationIndex = xLocationIndex;
 }
 
-function Score(name, time){
+function Score(name, time, turns){
   this.name = name;
   this.time = time;
+  this.turns = turns;
 }
 
 // functions
@@ -160,7 +161,7 @@ function populatePieces() {
     pieces[i] = [];
     for (var j = 0; j < xDimension; j++) {
       var myLocation = generateNewLocation(locationsUsed, i, j);
-      pieces[i][j] = new Piece('img/medi/logo-' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex + '.png');
+      pieces[i][j] = new Piece('img/medi/rsz_logo-' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex + '.png');
       locationsUsed.push(myLocation);
     }
   }
@@ -251,34 +252,35 @@ function generateArea(pieceArr, piece, firstPiece) {
 function endGame(won) {
   stopWatch.stop();
   var myTime = document.getElementById('timerDomEl').textContent;
+  var fieldset = document.getElementById('fieldset');
   if (won) {
     console.log('You won!');
-    gameForm.textContent = 'Congratulations ' + playerNameInputEl.value + ', you won! It took you ' + myTime + ' seconds to complete!';
-    currentScore = new Score(playerNameInputEl.value, myTime);
+    fieldset.innerHTML = 'Congratulations ' + playerNameInputEl.value + ', you won! It took you ' + myTime + ' seconds to complete!</br>';
+    currentScore = new Score(playerNameInputEl.value, myTime, minCount);
     gameArray.push(currentScore);
     var gameArrayStringified = JSON.stringify(gameArray);
     localStorage.setItem('gameArrayEl', gameArrayStringified);
   } else {
     console.log('You lost!');
-    gameForm.textContent = 'Congratulations ' + playerNameInputEl.value + ', you lost! It took you ' + myTime + ' seconds to fail!';
+    fieldset.innerHTML = 'Um, ' + playerNameInputEl.value + ', I don\'t think that\'s how it is supposed to look. You tried for ' + myTime + ' seconds and failed!</br>';
   }
   nameReplayLabelEl = document.createElement('label');
   nameReplayLabelEl.setAttribute('for', 'name');
   nameReplayLabelEl.textContent = ' Name: ';
   nameReplayInputEl = document.createElement('input');
-  gameForm.appendChild(nameReplayLabelEl);
+  fieldset.appendChild(nameReplayLabelEl);
   nameReplayInputEl.setAttribute('name', 'name');
   nameReplayInputEl.setAttribute('type', 'text');
   nameReplayInputEl.setAttribute('id', 'playerName');
-  gameForm.appendChild(nameReplayInputEl);
+  fieldset.appendChild(nameReplayInputEl);
   nameReplayInputEl.value = playerNameInputEl.value;
   var playAgainBtn = document.createElement('button');
-  playAgainBtn.setAttribute('id', 'play-again-button')
+  playAgainBtn.setAttribute('id', 'play-again-button');
   playAgainBtn.textContent = 'Play Again?';
   var playAgainATag = document.createElement('a');
   gameForm.removeEventListener('submit', handleStartButtonClick);
   playAgainATag.setAttribute('href', 'index.html');
-  gameForm.appendChild(playAgainATag);
+  fieldset.appendChild(playAgainATag);
   playAgainATag.appendChild(playAgainBtn);
   playAgainBtn.addEventListener('click', handleReplayButtonClick);
 }
@@ -308,8 +310,6 @@ function handleStartButtonClick(event) {
 }
 
 function startButtonfromReplay(){
-  pieces = [];
-
   console.log('startButtonfromReplay');
   console.log('startButtonfromReplay pieces before population', pieces);
   populatePieces();
@@ -317,16 +317,12 @@ function startButtonfromReplay(){
   minCount = findMinimumMoves();
   console.log('startButtonfromReplay pieces after moves calculation', pieces);
   drawCanvas();
-  // count = 0;
-  // swapPieces(pieces[0][0], pieces[0][1]);
-  // swapPieces(pieces[0][1], pieces[0][0]);
   console.log('startButtonfromReplay pieces after drawn', pieces);
   stopWatch.reset();
   stopWatch.start();
   gameForm.removeEventListener('submit', handleStartButtonClick);
   console.log('startButtonfromReplay pieces at end', pieces);
 }
-
 
 function handleCanvasMousedown(event) {
   getMousePosition(event);
