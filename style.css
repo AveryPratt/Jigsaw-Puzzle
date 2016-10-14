@@ -4,16 +4,20 @@ body {
 }
 
 form {
+  position: absolute;
   margin-top: 15%;
-  margin-left: 23%;
+  margin-left: -15%;
+  left: 50%;
   width: 29%;
   text-align: center;
   outline: none;
+  font-family: helvetica;
 }
 
 fieldset {
-  border: none;
+  border: 3px solid #000000;
   border-radius: 25px;
+  margin: auto;
 }
 
 label {
@@ -34,6 +38,7 @@ section {
   margin: auto;
   background-color: #323232;
   color: white;
+  border: none;
   border-radius: 25px;
   position: absolute;
   top: 150px;
@@ -83,7 +88,6 @@ button:hover {
 }
 
 .scoreList {
-  /*min-height: 200px;*/
   font-size: 2em;
   font-family: sans-serif;
   margin-left: 5%;

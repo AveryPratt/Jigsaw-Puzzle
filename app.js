@@ -252,26 +252,27 @@ function generateArea(pieceArr, piece, firstPiece) {
 function endGame(won) {
   stopWatch.stop();
   var myTime = document.getElementById('timerDomEl').textContent;
+  var fieldset = document.getElementById('fieldset');
   if (won) {
     console.log('You won!');
-    gameForm.textContent = 'Congratulations ' + playerNameInputEl.value + ', you won! It took you ' + myTime + ' seconds to complete!';
+    fieldset.innerHTML = 'Congratulations ' + playerNameInputEl.value + ', you won! It took you ' + myTime + ' seconds to complete!</br>';
     currentScore = new Score(playerNameInputEl.value, myTime, minCount);
     gameArray.push(currentScore);
     var gameArrayStringified = JSON.stringify(gameArray);
     localStorage.setItem('gameArrayEl', gameArrayStringified);
   } else {
     console.log('You lost!');
-    gameForm.textContent = 'Congratulations ' + playerNameInputEl.value + ', you lost! It took you ' + myTime + ' seconds to fail!';
+    fieldset.innerHTML = 'Um, ' + playerNameInputEl.value + ', I don\'t think that\'s how it is supposed to look. You tried for ' + myTime + ' seconds and failed!</br>';
   }
   nameReplayLabelEl = document.createElement('label');
   nameReplayLabelEl.setAttribute('for', 'name');
   nameReplayLabelEl.textContent = ' Name: ';
   nameReplayInputEl = document.createElement('input');
-  gameForm.appendChild(nameReplayLabelEl);
+  fieldset.appendChild(nameReplayLabelEl);
   nameReplayInputEl.setAttribute('name', 'name');
   nameReplayInputEl.setAttribute('type', 'text');
   nameReplayInputEl.setAttribute('id', 'playerName');
-  gameForm.appendChild(nameReplayInputEl);
+  fieldset.appendChild(nameReplayInputEl);
   nameReplayInputEl.value = playerNameInputEl.value;
   var playAgainBtn = document.createElement('button');
   playAgainBtn.setAttribute('id', 'play-again-button');
@@ -279,7 +280,7 @@ function endGame(won) {
   var playAgainATag = document.createElement('a');
   gameForm.removeEventListener('submit', handleStartButtonClick);
   playAgainATag.setAttribute('href', 'index.html');
-  gameForm.appendChild(playAgainATag);
+  fieldset.appendChild(playAgainATag);
   playAgainATag.appendChild(playAgainBtn);
   playAgainBtn.addEventListener('click', handleReplayButtonClick);
 }

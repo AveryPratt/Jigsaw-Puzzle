@@ -4,6 +4,7 @@ var newGameArray;
 var LiElId;
 var clearBoard = document.getElementById('clear-button');
 var scoreBoardListEl = document.getElementById('scoreboard-table');
+var compareCheckBox = document.getElementById('compare-type');
 
 function clearButtonClick() {
   localStorage.clear();
@@ -19,9 +20,23 @@ function compareScores(score1, score2){
   }
   else return -1;
 }
+function compareScoresGraded(score1, score2){
+  if(parseFloat(score1.time) / score1.turns > parseFloat(score2.time) / score2.turns){
+    return 1;
+  }
+  else return -1;
+}
+
+var currentCompareFunction;
 
 function displayScores(){
-  newGameArray.sort(compareScores);
+  scoreBoardListEl.textContent = '';
+  if(compareCheckBox.checked === true){
+    currentCompareFunction = compareScoresGraded;
+  } else {
+    currentCompareFunction = compareScores;
+  }
+  newGameArray.sort(currentCompareFunction);
   for (var i = 0; i < newGameArray.length; i++) {
     console.log(newGameArray.time);
     LiElId = document.createElement('li');
@@ -32,6 +47,7 @@ function displayScores(){
 }
 
 clearBoard.addEventListener('click', clearButtonClick);
+compareCheckBox.addEventListener('change', displayScores);
 
 // iife
 (function checkLocalStorage(){
