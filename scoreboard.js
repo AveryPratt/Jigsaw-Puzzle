@@ -26,7 +26,7 @@ function displayScores(){
     console.log(newGameArray.time);
     LiElId = document.createElement('li');
     LiElId.setAttribute('class', 'scoreList');
-    LiElId.textContent = newGameArray[i].name + '\'s score is ' + newGameArray[i].time + ' seconds';
+    LiElId.textContent = newGameArray[i].name + ': ' + newGameArray[i].time + ' seconds - ' + newGameArray[i].turns + ' turns';
     scoreBoardListEl.appendChild(LiElId);
   }
 }

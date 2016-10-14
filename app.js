@@ -32,7 +32,6 @@ var pieces = [];
 var gameArray = [];
 var currentScore;
 
-
 // constructors
 //adapted from http://jsbin.com/xayezotalo/edit?html,js,output
 function GameTimer(elem, options) {
@@ -99,8 +98,8 @@ function Piece(source) {
   this.img = new Image();
   this.img.src = source;
   this.img.setAttribute('style', 'border: 1px solid #000000;');
-  this.yPieceIndex = source.slice(14, 15);
-  this.xPieceIndex = source.slice(16, 17);
+  this.yPieceIndex = source.slice(source.length - 7, source.length - 6);
+  this.xPieceIndex = source.slice(source.length - 5, source.length - 4);
 };
 
 function ArrayLocation(yLocationIndex, xLocationIndex) {
@@ -108,9 +107,10 @@ function ArrayLocation(yLocationIndex, xLocationIndex) {
   this.xLocationIndex = xLocationIndex;
 }
 
-function Score(name, time){
+function Score(name, time, turns){
   this.name = name;
   this.time = time;
+  this.turns = turns;
 }
 
 // functions
@@ -161,7 +161,7 @@ function populatePieces() {
     pieces[i] = [];
     for (var j = 0; j < xDimension; j++) {
       var myLocation = generateNewLocation(locationsUsed, i, j);
-      pieces[i][j] = new Piece('img/medi/logo-' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex + '.png');
+      pieces[i][j] = new Piece('img/medi/rsz_logo-' + myLocation.yLocationIndex + '-' + myLocation.xLocationIndex + '.png');
       locationsUsed.push(myLocation);
     }
   }
@@ -255,7 +255,7 @@ function endGame(won) {
   if (won) {
     console.log('You won!');
     gameForm.textContent = 'Congratulations ' + playerNameInputEl.value + ', you won! It took you ' + myTime + ' seconds to complete!';
-    currentScore = new Score(playerNameInputEl.value, myTime);
+    currentScore = new Score(playerNameInputEl.value, myTime, minCount);
     gameArray.push(currentScore);
     var gameArrayStringified = JSON.stringify(gameArray);
     localStorage.setItem('gameArrayEl', gameArrayStringified);
